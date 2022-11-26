@@ -4,6 +4,7 @@ import { ReactComponent as BrandIcon } from "../../assets/BrandIcon.svg";
 import { ReactComponent as Bin } from "../../assets/Bin.svg";
 import { ReactComponent as Arrow } from "../../assets/arrow.svg";
 import CurrencyModal from "./currencyModal/CurrencyModal";
+import { Link } from "react-router-dom";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -20,12 +21,13 @@ const WrapperNavigationLabels = styled.div`
   justify-content: space-between;
 `;
 
-const NavigationLabels = styled.p`
+const NavigationLabels = styled(Link)`
   position: relative;
   font-family: "Raleway";
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
+  text-decoration: none;
   line-height: 120%;
   color: #1d1f22;
   cursor: pointer;
@@ -99,7 +101,11 @@ class Navigation extends Component<NavigationPropsType, NavigationStateType> {
   render(): React.ReactNode {
     const { arrowActive, currency } = this.state;
 
-    const labelsArr = ["all", "clothes", "tech"];
+    const labelsArr = [
+      { name: "all", path: "/all" },
+      { name: "clothes", path: "/clothes" },
+      { name: "technic", path: "/tech" },
+    ];
 
     const setCurrency = (currencySign: string) => {
       this.setState({ arrowActive: false, currency: currencySign });
@@ -113,7 +119,11 @@ class Navigation extends Component<NavigationPropsType, NavigationStateType> {
       <Wrapper>
         <WrapperNavigationLabels>
           {labelsArr.map((el) => {
-            return <NavigationLabels>{el.toUpperCase()}</NavigationLabels>;
+            return (
+              <NavigationLabels to={el.path}>
+                {el.name.toUpperCase()}
+              </NavigationLabels>
+            );
           })}
         </WrapperNavigationLabels>
         <BrandIcon />

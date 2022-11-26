@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   max-width: 355px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: space-between;
   padding: 30px;
   box-sizing: border-box;
   transition: 0.1s linear;
@@ -24,6 +24,12 @@ const StyledImage = styled.img`
   object-fit: cover;
 `;
 
+const TextInfo = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
 const ProductName = styled.p`
   font-family: "Raleway";
   font-style: normal;
@@ -39,7 +45,6 @@ const ProductPrice = styled.p`
   font-weight: 500;
   font-size: 18px;
   line-height: 160%;
-  text-align: right;
   color: #1d1f22;
 `;
 
@@ -56,8 +61,10 @@ class ProductCard extends Component<ProductCardProps, {}> {
     return (
       <Wrapper>
         <StyledImage src={imageUrl} />
-        <ProductName>{name}</ProductName>
-        <ProductPrice>{price}</ProductPrice>
+        <TextInfo>
+          <ProductName>{name}</ProductName>
+          <ProductPrice>{price}</ProductPrice>
+        </TextInfo>
       </Wrapper>
     );
   }
