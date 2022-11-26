@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.css";
 import styled from "styled-components";
-import All from "./components/all/All";
+import All from "./components/pages/all/All";
 import Navigation from "./components/navigation/Navigation";
 
 const ExtraWrapper = styled.div`
   width: 100%;
-  padding: 30px 100px 0 115px;
+  padding: 30px 100px 100px 115px;
   box-sizing: border-box;
 `;
 
