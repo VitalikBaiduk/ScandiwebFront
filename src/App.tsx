@@ -6,6 +6,7 @@ import All from "./components/pages/all/All";
 import Clothes from "./components/pages/clothes/Clothes";
 import { Route, Routes } from "react-router-dom";
 import Technic from "./components/pages/tech/Technic";
+import Product from "./components/product/Product";
 
 const ExtraWrapper = styled.div`
   width: 100%;
@@ -23,6 +24,7 @@ function App() {
         <Route path="/tech" element={<Technic />} />
         <Route path="*" element={<All />} />
       </Routes>
+      <Product id={"ps-5"} />
     </ExtraWrapper>
   );
 }

@@ -16,6 +16,8 @@ class Technic extends Component<any, {}> {
         <ProductCardWrapper>
           {products.length &&
             products.map((el: any) => {
+              console.log(el.id);
+
               return (
                 <ProductCard
                   key={el.id}
