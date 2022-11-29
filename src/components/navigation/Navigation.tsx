@@ -45,9 +45,9 @@ class Navigation extends Component<NavigationPropsType, NavigationStateType> {
     return (
       <Wrapper>
         <WrapperNavigationLabels>
-          {labelsArr.map((el) => {
+          {labelsArr.map((el, index) => {
             return (
-              <NavigationLabels to={el.path}>
+              <NavigationLabels to={el.path} key={index}>
                 {el.name.toUpperCase()}
               </NavigationLabels>
             );

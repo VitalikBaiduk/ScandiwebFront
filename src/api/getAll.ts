@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const getAllItem = gql`
-  {
+  query {
     category(input: { title: "all" }) {
       name
       products {
