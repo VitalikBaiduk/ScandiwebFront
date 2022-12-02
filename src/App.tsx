@@ -7,12 +7,7 @@ import Clothes from "./components/pages/clothes/Clothes";
 import { Route, Routes } from "react-router-dom";
 import Technic from "./components/pages/tech/Technic";
 import Product from "./components/product/Product";
-
-const ExtraWrapper = styled.div`
-  width: 100%;
-  padding: 30px 100px 100px 115px;
-  box-sizing: border-box;
-`;
+import { ExtraWrapper } from "./styles/global";
 
 function App() {
   return (
@@ -22,9 +17,11 @@ function App() {
         <Route path="/all" element={<All />} />
         <Route path="/clothes" element={<Clothes />} />
         <Route path="/tech" element={<Technic />} />
+        <Route path="all/proguct/:id" element={<Product />} />
+        <Route path="clothes/proguct/:id" element={<Product />} />
+        <Route path="tech/proguct/:id" element={<Product />} />
         <Route path="*" element={<All />} />
       </Routes>
-      <Product id={"ps-5"} />
     </ExtraWrapper>
   );
 }
