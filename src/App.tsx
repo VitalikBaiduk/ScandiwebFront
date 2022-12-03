@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import styled from "styled-components";
 import Navigation from "./components/navigation/Navigation";
 import All from "./components/pages/all/All";
 import Clothes from "./components/pages/clothes/Clothes";

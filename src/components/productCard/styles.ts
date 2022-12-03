@@ -30,8 +30,6 @@ export const TextInfo = styled.div`
 `;
 
 export const ProductName = styled.p`
-  font-family: "Raleway";
-  font-style: normal;
   font-weight: 300;
   font-size: 18px;
   line-height: 160%;
@@ -39,8 +37,6 @@ export const ProductName = styled.p`
 `;
 
 export const ProductPrice = styled.p`
-  font-family: "Raleway";
-  font-style: normal;
   font-weight: 500;
   font-size: 18px;
   line-height: 160%;

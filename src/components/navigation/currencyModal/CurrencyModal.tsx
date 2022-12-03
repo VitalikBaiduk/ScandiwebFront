@@ -11,12 +11,13 @@ const Wrapper = styled.div`
   top: 25px;
   left: 121px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  z-index: 999999;
+  background-color: #ffffffff;
 `;
 
 const CurrencyItem = styled.p`
   padding: 10px 20px;
   transition: 0.2s linear;
+  cursor: pointer;
   &:hover {
     background-color: #eeeeee;
   }

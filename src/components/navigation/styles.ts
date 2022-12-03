@@ -19,15 +19,14 @@ export const WrapperNavigationLabels = styled.div`
 
 export const NavigationLabels = styled(Link)`
   position: relative;
-  font-family: "Raleway";
-  font-style: normal;
   font-weight: 400;
   font-size: 16px;
   text-decoration: none;
+  text-transform: uppercase;
   line-height: 120%;
   color: #1d1f22;
   cursor: pointer;
-  transition: width 0.35s;
+  transition: width 0.2s;
   &::after {
     content: "";
     position: absolute;
@@ -36,7 +35,7 @@ export const NavigationLabels = styled(Link)`
     bottom: -35px;
     width: 0;
     height: 2px;
-    transition: width 0.35s;
+    transition: width 0.2s;
   }
   &:hover {
     font-weight: 600;
@@ -64,8 +63,6 @@ export const WrapperCurrency = styled.div`
 `;
 
 export const Currency = styled.p`
-  font-family: "Raleway";
-  font-style: normal;
   font-weight: 500;
   font-size: 18px;
   line-height: 100%;
