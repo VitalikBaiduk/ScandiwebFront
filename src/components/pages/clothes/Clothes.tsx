@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-import { graphql } from "@apollo/client/react/hoc";
+import React, { Component, ComponentType } from "react";
+import { DataProps, graphql, MutateProps } from "@apollo/client/react/hoc";
 import { ProductCardWrapper, Title, Wrapper } from "../../../styles/global";
 import { getClothesItem } from "../../../api/getClothes";
 import ProductCard from "../../productCard/ProductCard";
 import { ExtraCardWrapper } from "../../productCard/styles";
+import { connect } from "react-redux";
 
 class Clothes extends Component<any, {}> {
   render(): React.ReactNode {
@@ -11,18 +12,23 @@ class Clothes extends Component<any, {}> {
       ? this.props.data.category
       : { products: [] };
 
+    const stateCurrency = this.props.currency.currency;
+
     return (
       <Wrapper>
         <Title>Clothes</Title>
         <ProductCardWrapper>
           {products.length &&
             products.map((el: any) => {
+              const price = el.prices.find((priceItem: any) => {
+                return stateCurrency === priceItem.currency.symbol;
+              });
               return (
                 <ExtraCardWrapper key={el.id} to={`proguct/${el.id}`}>
                   <ProductCard
                     imageUrl={el.gallery[0] ? el.gallery[0] : ""}
                     name={el.name}
-                    price={el.prices[0].currency.symbol + el.prices[0].amount}
+                    price={price.currency.symbol + price.amount}
                   />
                 </ExtraCardWrapper>
               );
@@ -33,4 +39,15 @@ class Clothes extends Component<any, {}> {
   }
 }
 
-export default graphql(getClothesItem)(Clothes);
+const mapStateToProps = (state: any) => {
+  return {
+    currency: state.currency,
+  };
+};
+
+const ClothesPageContainer = connect(mapStateToProps, {})(Clothes);
+export default graphql(getClothesItem)(
+  ClothesPageContainer as ComponentType<
+    Partial<DataProps<{}, {}>> & Partial<MutateProps<{}, {}>>
+  >
+);

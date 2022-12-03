@@ -3,23 +3,28 @@ import styled from "styled-components";
 import {
   CurrencyModalProps,
   CurrencyModalStateType,
+  CurrencyItemType,
 } from "../../../types/types";
 
 const Wrapper = styled.div`
   position: absolute;
-  max-width: 115px;
+  width: 100%;
+  max-width: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   top: 25px;
-  left: 121px;
+  left: 112px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   background-color: #ffffffff;
 `;
 
 const CurrencyItem = styled.span`
-  padding: 10px 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
   transition: 0.2s linear;
   cursor: pointer;
   &:hover {
@@ -39,21 +44,18 @@ class CurrencyModal extends Component<
   };
 
   render(): React.ReactNode {
-    const { setCurrency, mouseLeaveHandler } = this.props;
-
-    const currencyArr = ["$ USD", "€ EUR", "¥ JPY"];
-
+    const { setCurrency, mouseLeaveHandler, currenciesList } = this.props;
     return (
       <Wrapper onMouseLeave={mouseLeaveHandler}>
-        {currencyArr.map((el, index) => {
+        {currenciesList.map((el: CurrencyItemType, index) => {
           return (
             <CurrencyItem
               key={index}
               onClick={() => {
-                setCurrency(el[0]);
+                setCurrency(el.symbol);
               }}
             >
-              {el}
+              {el.symbol + " " + el.label}
             </CurrencyItem>
           );
         })}

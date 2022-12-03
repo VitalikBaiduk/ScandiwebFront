@@ -1,28 +1,34 @@
 import React from "react";
 import "./App.css";
-import Navigation from "./components/navigation/Navigation";
-import All from "./components/pages/all/All";
-import Clothes from "./components/pages/clothes/Clothes";
+import NavigationContainer from "./components/navigation/Navigation";
+import AllPageContainer from "./components/pages/all/All";
+import ClothesPageContainer from "./components/pages/clothes/Clothes";
 import { Route, Routes } from "react-router-dom";
-import Technic from "./components/pages/tech/Technic";
+import TechnicPageContainer from "./components/pages/tech/Technic";
 import Product from "./components/product/Product";
 import { ExtraWrapper } from "./styles/global";
+import { Provider } from "react-redux";
+import { store } from "./state/store";
 
-function App() {
-  return (
-    <ExtraWrapper className="App">
-      <Navigation />
-      <Routes>
-        <Route path="/all" element={<All />} />
-        <Route path="/clothes" element={<Clothes />} />
-        <Route path="/tech" element={<Technic />} />
-        <Route path="all/proguct/:id" element={<Product />} />
-        <Route path="clothes/proguct/:id" element={<Product />} />
-        <Route path="tech/proguct/:id" element={<Product />} />
-        <Route path="*" element={<All />} />
-      </Routes>
-    </ExtraWrapper>
-  );
+class App extends React.Component {
+  render(): React.ReactNode {
+    return (
+      <Provider store={store}>
+        <ExtraWrapper className="App">
+          <NavigationContainer />
+          <Routes>
+            <Route path="/all" element={<AllPageContainer />} />
+            <Route path="/clothes" element={<ClothesPageContainer />} />
+            <Route path="/tech" element={<TechnicPageContainer />} />
+            <Route path="all/proguct/:id" element={<Product />} />
+            <Route path="clothes/proguct/:id" element={<Product />} />
+            <Route path="tech/proguct/:id" element={<Product />} />
+            <Route path="*" element={<AllPageContainer />} />
+          </Routes>
+        </ExtraWrapper>
+      </Provider>
+    );
+  }
 }
 
 export default App;

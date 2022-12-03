@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, ComponentType } from "react";
 import { ReactComponent as BrandIcon } from "../../assets/BrandIcon.svg";
 import { ReactComponent as Bin } from "../../assets/Bin.svg";
 import CurrencyModal from "./currencyModal/CurrencyModal";
@@ -12,6 +12,11 @@ import {
   WrapperNavigationLabels,
 } from "./styles";
 import { NavigationStateType } from "../../types/types";
+import { changeCurrency } from "../../state/actions/changeCurrency";
+import { connect } from "react-redux";
+import { graphql, MutateProps } from "@apollo/client/react/hoc";
+import { getCurrencies } from "../../api/getCurrencies";
+import { DataProps } from "react-apollo";
 
 class Navigation extends Component<any, NavigationStateType> {
   state = {
@@ -29,6 +34,7 @@ class Navigation extends Component<any, NavigationStateType> {
     ];
 
     const setCurrency = (currencySign: string) => {
+      this.props.changeCurrency(currencySign);
       this.setState({ arrowActive: false, currency: currencySign });
     };
 
@@ -62,6 +68,7 @@ class Navigation extends Component<any, NavigationStateType> {
             <CurrencyModal
               mouseLeaveHandler={mouseLeaveHandler}
               setCurrency={setCurrency}
+              currenciesList={this.props.data.currencies}
             />
           )}
         </ActionsBlock>
@@ -70,4 +77,25 @@ class Navigation extends Component<any, NavigationStateType> {
   }
 }
 
-export default Navigation;
+const mapStateToProps = (state: any) => {
+  return {
+    currency: state.currency,
+  };
+};
+
+const mapDispatchToProps = () => {
+  return {
+    changeCurrency,
+  };
+};
+
+const NavigationContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps()
+)(Navigation);
+
+export default graphql(getCurrencies)(
+  NavigationContainer as ComponentType<
+    Partial<DataProps<{}, {}>> & Partial<MutateProps<{}, {}>>
+  >
+);

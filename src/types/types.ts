@@ -5,9 +5,16 @@ export interface NavigationStateType {
   currency: string;
 }
 
+export interface CurrencyItemType {
+  __typename: string;
+  symbol: string;
+  label: string;
+}
+
 export interface CurrencyModalProps {
   setCurrency: (currency: string) => void;
   mouseLeaveHandler: () => void;
+  currenciesList: CurrencyItemType[];
 }
 
 export interface CurrencyModalStateType {

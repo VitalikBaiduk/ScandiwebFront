@@ -55,7 +55,6 @@ class Product extends Component<any, any> {
     const changeImageHandler = (image: string) => {
       this.setState({ mainImage: image });
     };
-    console.log(description);
 
     return (
       <Wrapper>
