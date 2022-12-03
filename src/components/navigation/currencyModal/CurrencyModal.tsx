@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import {
+  CurrencyModalProps,
+  CurrencyModalStateType,
+} from "../../../types/types";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -14,7 +18,7 @@ const Wrapper = styled.div`
   background-color: #ffffffff;
 `;
 
-const CurrencyItem = styled.p`
+const CurrencyItem = styled.span`
   padding: 10px 20px;
   transition: 0.2s linear;
   cursor: pointer;
@@ -26,16 +30,10 @@ const CurrencyItem = styled.p`
   }
 `;
 
-interface CurrencyModalProps {
-  setCurrency: (currency: string) => void;
-  mouseLeaveHandler: () => void;
-}
-
-interface StateType {
-  arrowActive: boolean;
-}
-
-class CurrencyModal extends Component<CurrencyModalProps, StateType> {
+class CurrencyModal extends Component<
+  CurrencyModalProps,
+  CurrencyModalStateType
+> {
   state = {
     arrowActive: false,
   };

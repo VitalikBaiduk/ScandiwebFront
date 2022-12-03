@@ -11,15 +11,9 @@ import {
   WrapperCurrency,
   WrapperNavigationLabels,
 } from "./styles";
+import { NavigationStateType } from "../../types/types";
 
-interface NavigationPropsType {}
-
-interface NavigationStateType {
-  arrowActive: boolean;
-  currency: string;
-}
-
-class Navigation extends Component<NavigationPropsType, NavigationStateType> {
+class Navigation extends Component<any, NavigationStateType> {
   state = {
     arrowActive: false,
     currency: "$",

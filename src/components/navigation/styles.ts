@@ -18,6 +18,7 @@ export const WrapperNavigationLabels = styled.div`
 `;
 
 export const NavigationLabels = styled(Link)`
+  font-family: "Raleway";
   position: relative;
   font-weight: 400;
   font-size: 16px;
@@ -62,7 +63,8 @@ export const WrapperCurrency = styled.div`
   margin-right: 20px;
 `;
 
-export const Currency = styled.p`
+export const Currency = styled.span`
+  font-family: "Raleway";
   font-weight: 500;
   font-size: 18px;
   line-height: 100%;

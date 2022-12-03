@@ -1,4 +1,13 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+
+export const ExtraCardWrapper = styled(Link)`
+  width: 100%;
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+`;
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -19,8 +28,8 @@ export const Wrapper = styled.div`
 
 export const StyledImage = styled.img`
   max-width: 100%;
-  max-height: 330px;
-  object-fit: cover;
+  height: 330px;
+  object-fit: contain;
 `;
 
 export const TextInfo = styled.div`
@@ -29,14 +38,15 @@ export const TextInfo = styled.div`
   flex-direction: column;
 `;
 
-export const ProductName = styled.p`
+export const ProductName = styled.span`
   font-weight: 300;
   font-size: 18px;
   line-height: 160%;
   color: #1d1f22;
+  margin-top: 25px;
 `;
 
-export const ProductPrice = styled.p`
+export const ProductPrice = styled.span`
   font-weight: 500;
   font-size: 18px;
   line-height: 160%;

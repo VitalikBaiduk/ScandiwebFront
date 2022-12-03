@@ -2,8 +2,10 @@ import styled from "styled-components";
 
 export const ExtraWrapper = styled.div`
   width: 100%;
+  max-width: 2560px;
   padding: 30px 100px 100px 115px;
   box-sizing: border-box;
+  margin: 0 auto;
 `;
 
 export const Wrapper = styled.div`

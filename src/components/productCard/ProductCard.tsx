@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { ProductCardProps } from "../../types/types";
 import {
   ProductName,
   ProductPrice,
@@ -6,12 +7,6 @@ import {
   TextInfo,
   Wrapper,
 } from "./styles";
-
-interface ProductCardProps {
-  imageUrl: string;
-  name: string;
-  price: string;
-}
 
 class ProductCard extends Component<ProductCardProps, {}> {
   render(): React.ReactNode {
