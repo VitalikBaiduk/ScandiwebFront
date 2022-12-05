@@ -38,6 +38,8 @@ export const MainImage = styled.img`
 `;
 
 export const InfoBlock = styled.div`
+  width: 100%;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -97,6 +99,10 @@ export const AttributesItem = styled.div`
   cursor: pointer;
   transition: 0.2s linear;
   &:hover {
+    /* background-color: #1d1f22;
+    color: #ffffff; */
+  }
+  &.active {
     background-color: #1d1f22;
     color: #ffffff;
   }
@@ -133,7 +139,6 @@ export const PriceValue = styled.span`
 
 export const AddToCartButton = styled.button`
   width: 100%;
-  max-width: 300px;
   background: #5ece7b;
   color: #ffffff;
   cursor: pointer;

@@ -21,11 +21,10 @@ import { DataProps } from "react-apollo";
 class Navigation extends Component<any, NavigationStateType> {
   state = {
     arrowActive: false,
-    currency: "$",
   };
 
   render(): React.ReactNode {
-    const { arrowActive, currency } = this.state;
+    const { arrowActive } = this.state;
 
     const labelsArr = [
       { name: "all", path: "/all" },
@@ -35,7 +34,7 @@ class Navigation extends Component<any, NavigationStateType> {
 
     const setCurrency = (currencySign: string) => {
       this.props.changeCurrency(currencySign);
-      this.setState({ arrowActive: false, currency: currencySign });
+      this.setState({ arrowActive: false });
     };
 
     const mouseLeaveHandler = () => {
@@ -60,7 +59,7 @@ class Navigation extends Component<any, NavigationStateType> {
               this.setState({ arrowActive: !arrowActive });
             }}
           >
-            <Currency>{currency}</Currency>
+            <Currency>{this.props.currency.currency}</Currency>
             <StyledArrowIcon className={arrowActive ? "active" : ""} />
           </WrapperCurrency>
           <Bin />

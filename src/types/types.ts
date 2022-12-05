@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export interface NavigationStateType {
   arrowActive: boolean;
-  currency: string;
 }
 
 export interface CurrencyItemType {
