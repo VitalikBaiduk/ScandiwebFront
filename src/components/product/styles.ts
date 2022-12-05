@@ -114,7 +114,7 @@ export const ColorAttributesItem = styled.div<ProductColorAttributesItemProps>`
   border: 1px solid white;
   cursor: pointer;
   background-color: ${(props: any) => props.backgroundColor};
-  &:hover {
+  &.active {
     border: 1px solid #5ece7b;
   }
 `;

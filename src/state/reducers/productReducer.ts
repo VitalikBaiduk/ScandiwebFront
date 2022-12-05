@@ -1,3 +1,5 @@
+import { ProductAttributeName } from "../../enums/ProductAttributeName";
+
 export interface ProductStateType {
   name: string;
   activeElement: any;
@@ -10,23 +12,23 @@ interface initialStateType {
 const initialState: initialStateType = {
   attributesState: [
     {
-      name: "Size",
+      name: ProductAttributeName.SIZE,
       activeElement: null as unknown as number,
     },
     {
-      name: "Color",
+      name: ProductAttributeName.COLOR,
       activeElement: null as unknown as number,
     },
     {
-      name: "Capacity",
+      name: ProductAttributeName.CAPACITY,
       activeElement: null as unknown as number,
     },
     {
-      name: "With USB 3 ports",
+      name: ProductAttributeName.WITHUSB,
       activeElement: null as unknown as number,
     },
     {
-      name: "Touch ID in keyboard",
+      name: ProductAttributeName.TOUCHID,
       activeElement: null as unknown as number,
     },
   ],

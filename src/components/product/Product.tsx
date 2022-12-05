@@ -117,6 +117,13 @@ class Product extends Component<any, any> {
                       if (element.name === ProductAttributeName.COLOR) {
                         return (
                           <ColorAttributesItem
+                            className={isActive}
+                            onClick={() => {
+                              this.props.changeProductState(
+                                index,
+                                element.name
+                              );
+                            }}
                             backgroundColor={item.value}
                           ></ColorAttributesItem>
                         );
