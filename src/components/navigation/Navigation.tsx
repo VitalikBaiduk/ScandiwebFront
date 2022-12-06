@@ -4,6 +4,8 @@ import { ReactComponent as Bin } from "../../assets/Bin.svg";
 import CurrencyModal from "./currencyModal/CurrencyModal";
 import {
   ActionsBlock,
+  BinWrapper,
+  CountOfElemInBin,
   Currency,
   NavigationLabels,
   StyledArrowIcon,
@@ -41,6 +43,8 @@ class Navigation extends Component<any, NavigationStateType> {
       this.setState({ arrowActive: false });
     };
 
+    console.log(this.props.cartReducer.length);
+
     return (
       <Wrapper>
         <WrapperNavigationLabels>
@@ -62,7 +66,16 @@ class Navigation extends Component<any, NavigationStateType> {
             <Currency>{this.props.currency.currency}</Currency>
             <StyledArrowIcon className={arrowActive ? "active" : ""} />
           </WrapperCurrency>
-          <Bin />
+          <BinWrapper to={"/cart"}>
+            <Bin />
+            {this.props.cartReducer.length ? (
+              <CountOfElemInBin>
+                {this.props.cartReducer.length}
+              </CountOfElemInBin>
+            ) : (
+              <></>
+            )}
+          </BinWrapper>
           {arrowActive && (
             <CurrencyModal
               mouseLeaveHandler={mouseLeaveHandler}
@@ -79,6 +92,7 @@ class Navigation extends Component<any, NavigationStateType> {
 const mapStateToProps = (state: any) => {
   return {
     currency: state.currency,
+    cartReducer: state.cartReducer.data,
   };
 };
 

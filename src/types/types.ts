@@ -28,6 +28,7 @@ export interface ProductAttributesItemsType {
   displayValue: string;
   value: string;
   id: string;
+  __typename: string;
 }
 export interface ProductAttributesType {
   id: string;
@@ -46,4 +47,18 @@ export interface WithRouterProps {
   location: ReturnType<typeof useLocation>;
   params: Record<string, string>;
   navigate: ReturnType<typeof useNavigate>;
+}
+
+interface PriceItem {
+  amount: number;
+  currency: CurrencyItemType;
+}
+
+export interface ProductData {
+  attributes: ProductAttributesType[];
+  brand: string;
+  gallery: string[];
+  name: string;
+  prices: PriceItem[];
+  __typename: string;
 }

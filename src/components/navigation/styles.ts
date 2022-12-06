@@ -79,3 +79,32 @@ export const StyledArrowIcon = styled(Arrow)`
     transform: rotate(180deg);
   }
 `;
+
+export const BinWrapper = styled(Link)`
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+`;
+
+export const CountOfElemInBin = styled.div`
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: -10px;
+  left: 10px;
+  background: #1d1f22;
+  border-radius: 60px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  font-family: "Roboto Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: uppercase;
+  color: #ffffff;
+`;

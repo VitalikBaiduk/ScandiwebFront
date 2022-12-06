@@ -98,10 +98,7 @@ export const AttributesItem = styled.div`
   color: #1d1f22;
   cursor: pointer;
   transition: 0.2s linear;
-  &:hover {
-    /* background-color: #1d1f22;
-    color: #ffffff; */
-  }
+  box-sizing: border-box;
   &.active {
     background-color: #1d1f22;
     color: #ffffff;

@@ -1,4 +1,8 @@
 import { ProductAttributeName } from "../../enums/ProductAttributeName";
+import {
+  changeProductStateType,
+  clearProductStateType,
+} from "../actions/changeProductState";
 
 export interface ProductStateType {
   name: string;
@@ -36,7 +40,7 @@ const initialState: initialStateType = {
 
 export const productReducer = (
   state: initialStateType = initialState,
-  action: any
+  action: changeProductStateType | clearProductStateType
 ) => {
   switch (action.type) {
     case "CHANGE_PRODUCT_STATE":

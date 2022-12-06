@@ -7,6 +7,7 @@ import { Route, Routes } from "react-router-dom";
 import TechnicPageContainer from "./components/pages/tech/Technic";
 import ProductPageContainer from "./components/product/Product";
 import { ExtraWrapper } from "./styles/global";
+import Cart from "./components/pages/Cart/Cart";
 
 class App extends React.Component {
   render(): React.ReactNode {
@@ -24,6 +25,7 @@ class App extends React.Component {
           />
           <Route path="tech/proguct/:id" element={<ProductPageContainer />} />
           <Route path="*" element={<AllPageContainer />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </ExtraWrapper>
     );

@@ -32,6 +32,7 @@ import {
   clearProductState,
 } from "../../state/actions/changeProductState";
 import { ProductStateType } from "../../state/reducers/productReducer";
+import { addProduct } from "../../state/actions/addProdutToCart";
 
 class Product extends Component<any, any> {
   componentDidMount(): void {
@@ -114,34 +115,24 @@ class Product extends Component<any, any> {
                           ? "active"
                           : ""
                         : "";
-                      if (element.name === ProductAttributeName.COLOR) {
-                        return (
-                          <ColorAttributesItem
-                            className={isActive}
-                            onClick={() => {
-                              this.props.changeProductState(
-                                index,
-                                element.name
-                              );
-                            }}
-                            backgroundColor={item.value}
-                          ></ColorAttributesItem>
-                        );
-                      } else {
-                        return (
-                          <AttributesItem
-                            className={isActive}
-                            onClick={() => {
-                              this.props.changeProductState(
-                                index,
-                                element.name
-                              );
-                            }}
-                          >
-                            {name === "Jacket" ? item.value : item.displayValue}
-                          </AttributesItem>
-                        );
-                      }
+                      return element.name === ProductAttributeName.COLOR ? (
+                        <ColorAttributesItem
+                          className={isActive}
+                          onClick={() => {
+                            this.props.changeProductState(index, element.name);
+                          }}
+                          backgroundColor={item.value}
+                        ></ColorAttributesItem>
+                      ) : (
+                        <AttributesItem
+                          className={isActive}
+                          onClick={() => {
+                            this.props.changeProductState(index, element.name);
+                          }}
+                        >
+                          {name === "Jacket" ? item.value : item.displayValue}
+                        </AttributesItem>
+                      );
                     }
                   )}
                 </WrapeprAttributesItem>
@@ -154,7 +145,19 @@ class Product extends Component<any, any> {
               ? currentPrice.currency.symbol + currentPrice.amount
               : ""}
           </PriceValue>
-          <AddToCartButton>ADD TO CART</AddToCartButton>
+          <AddToCartButton
+            onClick={() => {
+              this.props.addProduct({
+                gallery,
+                attributes,
+                name,
+                brand,
+                prices,
+              });
+            }}
+          >
+            ADD TO CART
+          </AddToCartButton>
           <WrapperProductDescription
             style={{ fontFamily: "Roboto Condensed" }}
             dangerouslySetInnerHTML={{ __html: description }}
@@ -176,6 +179,7 @@ const mapDispatchToProps = () => {
   return {
     changeProductState,
     clearProductState,
+    addProduct,
   };
 };
 
@@ -183,6 +187,7 @@ const ProductPageContainer = connect(
   mapStateToProps,
   mapDispatchToProps()
 )(Product);
+
 export default withRouter(
   graphql<{ id: string }>(getProduct, {
     options: ({ id }) => ({

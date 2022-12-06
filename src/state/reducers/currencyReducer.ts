@@ -1,4 +1,3 @@
-import { Dispatch } from "redux";
 import { ChangeCurrencyType } from "../actions/changeCurrency";
 
 interface initialStateType {
