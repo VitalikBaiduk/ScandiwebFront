@@ -23,6 +23,7 @@ import {
   WrapperSmallImage,
 } from "./styles";
 import {
+  ActiveAttebutes,
   ProductAttributesItemsType,
   ProductAttributesType,
 } from "../../types/types";
@@ -32,7 +33,7 @@ import {
   clearProductState,
 } from "../../state/actions/changeProductState";
 import { ProductStateType } from "../../state/reducers/productReducer";
-import { addProduct } from "../../state/actions/addProdutToCart";
+import { addProduct } from "../../state/actions/handleProdutInCart";
 
 class Product extends Component<any, any> {
   componentDidMount(): void {
@@ -41,7 +42,6 @@ class Product extends Component<any, any> {
 
   state = {
     mainImage: "",
-    activeAttribute: null,
   };
 
   render(): React.ReactNode {
@@ -63,8 +63,10 @@ class Product extends Component<any, any> {
           prices: [{ currency: { label: "", symbol: "" }, amount: "" }],
           description: "",
         };
-
+    const { mainImage } = this.state;
     const stateCurrency = this.props.currency.currency;
+    const { productReducer, changeProductState, addProduct, cartReducer } =
+      this.props;
 
     const changeImageHandler = (image: string) => {
       this.setState({ mainImage: image });
@@ -72,6 +74,19 @@ class Product extends Component<any, any> {
 
     const currentPrice = prices.find((el: any) => {
       return stateCurrency === el.currency.symbol;
+    });
+
+    let currentAttributesArr: any[] = [];
+
+    attributes.map((attrItem: ProductAttributesType) => {
+      let [item] = productReducer.attributesState.filter((el: any) => {
+        return el.name === attrItem.name;
+      });
+      currentAttributesArr.push(item);
+    });
+
+    const isInactiveElements = currentAttributesArr.find((el: any) => {
+      return el ? el.activeElement === null : "";
     });
 
     return (
@@ -90,9 +105,7 @@ class Product extends Component<any, any> {
               );
             })}
           </WrapperSmallImage>
-          <MainImage
-            src={this.state.mainImage ? this.state.mainImage : gallery[0]}
-          />
+          <MainImage src={mainImage ? mainImage : gallery[0]} />
         </ImageBlock>
         <InfoBlock>
           <NameOfItem>{name}</NameOfItem>
@@ -105,21 +118,29 @@ class Product extends Component<any, any> {
                   {element.items.map(
                     (item: ProductAttributesItemsType, index: number) => {
                       const activeItem: ProductStateType =
-                        this.props.productReducer.find(
+                        productReducer.attributesState.find(
                           (el: ProductStateType) => {
                             return el.name === element.name;
                           }
                         );
+
                       const isActive = activeItem
                         ? activeItem.activeElement === index
                           ? "active"
                           : ""
                         : "";
+
                       return element.name === ProductAttributeName.COLOR ? (
                         <ColorAttributesItem
-                          className={isActive}
+                          className={
+                            item.value === "#FFFFFF" && isActive
+                              ? "forWhite active"
+                              : item.value === "#FFFFFF"
+                              ? "forWhite"
+                              : isActive
+                          }
                           onClick={() => {
-                            this.props.changeProductState(index, element.name);
+                            changeProductState(index, element.name);
                           }}
                           backgroundColor={item.value}
                         ></ColorAttributesItem>
@@ -127,7 +148,7 @@ class Product extends Component<any, any> {
                         <AttributesItem
                           className={isActive}
                           onClick={() => {
-                            this.props.changeProductState(index, element.name);
+                            changeProductState(index, element.name);
                           }}
                         >
                           {name === "Jacket" ? item.value : item.displayValue}
@@ -146,14 +167,27 @@ class Product extends Component<any, any> {
               : ""}
           </PriceValue>
           <AddToCartButton
+            className={isInactiveElements ? "disable" : ""}
             onClick={() => {
-              this.props.addProduct({
-                gallery,
-                attributes,
-                name,
-                brand,
-                prices,
+              let existingItem = false;
+              cartReducer.data.map((cartReducerItem: any) => {
+                existingItem =
+                  JSON.stringify(cartReducerItem.activeAttebutes) ===
+                  JSON.stringify(currentAttributesArr);
               });
+
+              !isInactiveElements &&
+                !existingItem &&
+                addProduct(
+                  {
+                    gallery,
+                    attributes,
+                    name,
+                    brand,
+                    prices,
+                  },
+                  currentAttributesArr
+                );
             }}
           >
             ADD TO CART
@@ -171,7 +205,8 @@ class Product extends Component<any, any> {
 const mapStateToProps = (state: any) => {
   return {
     currency: state.currency,
-    productReducer: state.productReducer.attributesState,
+    productReducer: state.productReducer,
+    cartReducer: state.cartReducer,
   };
 };
 

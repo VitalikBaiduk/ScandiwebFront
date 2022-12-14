@@ -49,7 +49,7 @@ export interface WithRouterProps {
   navigate: ReturnType<typeof useNavigate>;
 }
 
-interface PriceItem {
+export interface PriceItem {
   amount: number;
   currency: CurrencyItemType;
 }
@@ -61,4 +61,14 @@ export interface ProductData {
   name: string;
   prices: PriceItem[];
   __typename: string;
+}
+
+export interface ActiveAttebutes {
+  name: string;
+  activeElement: number;
+}
+
+export interface ProductDataWithActiveAttr extends ProductData {
+  activeAttebutes: ActiveAttebutes[];
+  count: number;
 }

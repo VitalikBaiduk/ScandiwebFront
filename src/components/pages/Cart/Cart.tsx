@@ -1,91 +1,86 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { removeProduct } from "../../../state/actions/addProdutToCart";
-import { ProductData } from "../../../types/types";
+import {
+  productCount,
+  removeProduct,
+} from "../../../state/actions/handleProdutInCart";
+import {
+  changeFirstTotalPrice,
+  increasetTotalPrice,
+  reduceTotalPrice,
+} from "../../../state/actions/changePrices";
 import ProductForCart from "../../product/components/productForCart/ProductForCart";
 
-const Wrapper = styled.div`
-  width: 100%;
-  margin-top: 110px;
-`;
-
-const Title = styled.p`
-  font-family: "Raleway";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 32px;
-  line-height: 40px;
-  text-transform: uppercase;
-  color: #1d1f22;
-`;
-
-const ProductWrapper = styled.div`
-  width: 100%;
-  border-top: 1px solid #e5e5e5;
-  box-sizing: border-box;
-  padding-top: 25px;
-  margin-top: 25px;
-  &:first-child {
-    margin-top: 55px;
-  }
-`;
-
-const BlockForEmptyBin = styled.div`
-  /* width: 100%;
-  height: 100%; */
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 150px auto;
-`;
-
-const EmptyText = styled.p`
-  width: 100%;
-  font-family: "Raleway";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 160%;
-  color: #1d1f22;
-  margin-bottom: 30px;
-  text-align: center;
-  &.inButton {
-    color: #ffffff;
-    margin-bottom: 0;
-    line-height: 100%;
-  }
-`;
-
-const ToShoppingLink = styled(Link)`
-  background: #5ece7b;
-  color: #ffffff;
-  text-decoration: none;
-  line-height: 100%;
-  cursor: pointer;
-  box-sizing: border-box;
-  padding: 15px 10px;
-  transition: 0.2s linear;
-  &:hover {
-    background-color: #4aa361;
-  }
-`;
+import { ProductDataWithActiveAttr } from "../../../types/types";
+import {
+  BlockForEmptyBin,
+  EmptyText,
+  OrderButton,
+  ProductWrapper,
+  ToShoppingLink,
+  TotalBlockKey,
+  TotalBlockValue,
+  TotalKey,
+  TotalPriceBlock,
+  TotalValue,
+  Wrapper,
+} from "./styles";
+import { Title } from "../../../styles/global";
 
 class Cart extends Component<any, {}> {
+  componentDidMount(): void {
+    this.props.changeFirstTotalPrice(
+      this.props.cartReducer.data,
+      this.props.currency.currency
+    );
+  }
+  componentDidUpdate(
+    prevProps: Readonly<any>,
+    prevState: Readonly<{}>,
+    snapshot?: any
+  ): void {
+    if (prevProps.currency.currency !== this.props.currency.currency) {
+      this.props.changeFirstTotalPrice(
+        this.props.cartReducer.data,
+        this.props.currency.currency
+      );
+    } else if (
+      this.props.cartReducer.data.length !== prevProps.cartReducer.data.length
+    ) {
+      this.props.changeFirstTotalPrice(
+        this.props.cartReducer.data,
+        this.props.currency.currency
+      );
+    }
+  }
+  state = {
+    totalPrice: 0,
+  };
+
   render(): React.ReactNode {
-    // console.log(this.props.cartReducer);
-    const products = this.props.cartReducer;
-    // console.log(products);
+    const {
+      cartReducer,
+      currency,
+      increasetTotalPrice,
+      reduceTotalPrice,
+      removeProduct,
+    } = this.props;
+
+    const products = cartReducer.data;
+    const stateCurrency = currency.currency;
+
+    const getTotalPrice = (price: number, inc: boolean, decr: boolean) => {
+      inc && increasetTotalPrice(price);
+      decr && reduceTotalPrice(price);
+    };
 
     return (
       <Wrapper>
         <Title>Cart</Title>
         {products && products.length ? (
-          products.map((el: ProductData) => {
+          products.map((el: ProductDataWithActiveAttr, index: number) => {
             return (
-              <ProductWrapper>
+              <ProductWrapper key={index}>
                 <ProductForCart
                   attributes={el.attributes}
                   brand={el.brand}
@@ -93,8 +88,12 @@ class Cart extends Component<any, {}> {
                   name={el.name}
                   prices={el.prices}
                   __typename={el.__typename}
-                  currency={this.props.currency}
-                  removeProduct={this.props.removeProduct}
+                  currency={currency}
+                  removeProduct={removeProduct}
+                  getTotalPrice={getTotalPrice}
+                  updatedPrices={cartReducer.updatedPrices}
+                  attributeState={el.activeAttebutes}
+                  productCount={productCount}
                 />
               </ProductWrapper>
             );
@@ -109,6 +108,25 @@ class Cart extends Component<any, {}> {
             </ToShoppingLink>
           </BlockForEmptyBin>
         )}
+        {products && products.length !== 0 && (
+          <TotalPriceBlock>
+            <TotalBlockKey>
+              Tax 21%:
+              <TotalBlockValue>
+                {" " + stateCurrency + cartReducer.tax.toFixed(2)}
+              </TotalBlockValue>
+            </TotalBlockKey>
+            <TotalBlockKey>
+              Quantity:{" "}
+              <TotalBlockValue>{products && products.length}</TotalBlockValue>
+            </TotalBlockKey>
+            <TotalKey>
+              Total:{" "}
+              <TotalValue>{stateCurrency + cartReducer.totalPrice}</TotalValue>
+            </TotalKey>
+            <OrderButton>ORDER</OrderButton>
+          </TotalPriceBlock>
+        )}
       </Wrapper>
     );
   }
@@ -117,13 +135,17 @@ class Cart extends Component<any, {}> {
 const mapStateToProps = (state: any) => {
   return {
     currency: state.currency,
-    cartReducer: state.cartReducer.data,
+    cartReducer: state.cartReducer,
   };
 };
 
 const mapDuspatchToProps = () => {
   return {
     removeProduct,
+    changeFirstTotalPrice,
+    increasetTotalPrice,
+    reduceTotalPrice,
+    productCount,
   };
 };
 

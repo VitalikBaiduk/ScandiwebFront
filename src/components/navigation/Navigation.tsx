@@ -27,6 +27,7 @@ class Navigation extends Component<any, NavigationStateType> {
 
   render(): React.ReactNode {
     const { arrowActive } = this.state;
+    const { changeCurrency, currency, cartReducer, data } = this.props;
 
     const labelsArr = [
       { name: "all", path: "/all" },
@@ -35,15 +36,13 @@ class Navigation extends Component<any, NavigationStateType> {
     ];
 
     const setCurrency = (currencySign: string) => {
-      this.props.changeCurrency(currencySign);
+      changeCurrency(currencySign);
       this.setState({ arrowActive: false });
     };
 
     const mouseLeaveHandler = () => {
       this.setState({ arrowActive: false });
     };
-
-    console.log(this.props.cartReducer.length);
 
     return (
       <Wrapper>
@@ -59,19 +58,18 @@ class Navigation extends Component<any, NavigationStateType> {
         <BrandIcon />
         <ActionsBlock>
           <WrapperCurrency
+            onClick={() => this.setState({ arrowActive: !arrowActive })}
             onMouseEnter={() => {
               this.setState({ arrowActive: !arrowActive });
             }}
           >
-            <Currency>{this.props.currency.currency}</Currency>
+            <Currency>{currency.currency}</Currency>
             <StyledArrowIcon className={arrowActive ? "active" : ""} />
           </WrapperCurrency>
           <BinWrapper to={"/cart"}>
             <Bin />
-            {this.props.cartReducer.length ? (
-              <CountOfElemInBin>
-                {this.props.cartReducer.length}
-              </CountOfElemInBin>
+            {cartReducer.length ? (
+              <CountOfElemInBin>{cartReducer.length}</CountOfElemInBin>
             ) : (
               <></>
             )}
@@ -80,7 +78,7 @@ class Navigation extends Component<any, NavigationStateType> {
             <CurrencyModal
               mouseLeaveHandler={mouseLeaveHandler}
               setCurrency={setCurrency}
-              currenciesList={this.props.data.currencies}
+              currenciesList={data.currencies}
             />
           )}
         </ActionsBlock>

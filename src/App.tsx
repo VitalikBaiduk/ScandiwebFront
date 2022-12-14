@@ -7,13 +7,15 @@ import { Route, Routes } from "react-router-dom";
 import TechnicPageContainer from "./components/pages/tech/Technic";
 import ProductPageContainer from "./components/product/Product";
 import { ExtraWrapper } from "./styles/global";
-import Cart from "./components/pages/Cart/Cart";
+import Cart from "./components/pages/cart/Cart";
+import CartOverlay from "./components/pages/cart/cartOverlay/CartOverlay";
 
 class App extends React.Component {
   render(): React.ReactNode {
     return (
       <ExtraWrapper className="App">
         <NavigationContainer />
+        <CartOverlay />
         <Routes>
           <Route path="/all" element={<AllPageContainer />} />
           <Route path="/clothes" element={<ClothesPageContainer />} />
