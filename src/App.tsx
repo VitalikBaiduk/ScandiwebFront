@@ -7,9 +7,9 @@ import { Route, Routes } from "react-router-dom";
 import TechnicPageContainer from "./components/pages/tech/Technic";
 import ProductPageContainer from "./components/product/Product";
 import { ExtraWrapper, OpenModal } from "./styles/global";
-import Cart from "./components/pages/cart/Cart";
 import { connect } from "react-redux";
 import { changeCartOvelayStatus } from "./state/actions/changeCartOvelayStatus";
+import Cart from "./components/pages/Cart/Cart";
 
 class App extends React.Component<any, any> {
   render(): React.ReactNode {

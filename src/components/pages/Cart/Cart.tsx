@@ -10,8 +10,9 @@ import {
   reduceTotalPrice,
 } from "../../../state/actions/changePrices";
 import ProductForCart from "../../product/components/productForCart/ProductForCart";
-
 import { ProductDataWithActiveAttr } from "../../../types/types";
+
+import { Title } from "../../../styles/global";
 import {
   BlockForEmptyBin,
   EmptyText,
@@ -25,7 +26,6 @@ import {
   TotalValue,
   Wrapper,
 } from "./styles";
-import { Title } from "../../../styles/global";
 
 class Cart extends Component<any, {}> {
   componentDidMount(): void {
