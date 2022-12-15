@@ -18,11 +18,7 @@ class App extends React.Component<any, any> {
       <ExtraWrapper className={isOpenCartOverlay ? "blockScroll" : ""}>
         <NavigationContainer />
         {isOpenCartOverlay && (
-          <OpenModal
-            onClick={() => {
-              this.props.changeCartOvelayStatus(false);
-            }}
-          />
+          <OpenModal onClick={() => this.props.changeCartOvelayStatus(false)} />
         )}
         <Routes>
           <Route path="/all" element={<AllPageContainer />} />
