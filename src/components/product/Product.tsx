@@ -137,7 +137,10 @@ class Product extends Component<any, any> {
           <Brand>{brand}</Brand>
           {attributes.map((element: ProductAttributesType, i: number) => {
             return (
-              <AttributesBlock className={i === 0 ? "firstAttribute" : ""}>
+              <AttributesBlock
+                key={i}
+                className={i === 0 ? "firstAttribute" : ""}
+              >
                 <AttributesName>{element.name + ":"}</AttributesName>
                 <WrapeprAttributesItem>
                   {element.items.map(
@@ -157,6 +160,7 @@ class Product extends Component<any, any> {
 
                       return element.name === ProductAttributeName.COLOR ? (
                         <ColorAttributesItem
+                          key={index}
                           className={
                             item.value === "#FFFFFF" && isActive
                               ? "forWhite active"
@@ -171,6 +175,7 @@ class Product extends Component<any, any> {
                         ></ColorAttributesItem>
                       ) : (
                         <AttributesItem
+                          key={index}
                           className={isActive}
                           onClick={() => {
                             changeProductState(index, element.name);
