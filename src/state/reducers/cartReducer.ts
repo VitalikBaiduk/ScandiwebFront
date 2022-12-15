@@ -45,23 +45,21 @@ export const cartReducer = (
         data: state.data.filter((el: ProductData) => el.name !== action.name),
       };
     case "PRODUCT_COUNT":
-      debugger;
       const newData = state.data.map((el) => {
         return el.name === action.name ? { ...el, count: action.count } : el;
       });
-
-      console.log("22");
-
-      const changedProductCount = { ...state.data, count: action.count };
-      return state;
+      return { ...state, data: newData };
     case "SET_FIRST_TOTAL_PRICE":
       let firstTotalPriceArr: any[] = [];
-
-      action.products.map((attrItem: ProductData) => {
+      action.products.map((attrItem: ProductDataWithActiveAttr) => {
         let [item] = attrItem.prices.filter((el: any) => {
           return el.currency.symbol === action.stateCurrency;
         });
-        firstTotalPriceArr.push(item.amount);
+        const result = attrItem.count
+          ? attrItem.count * item.amount
+          : 1 * item.amount;
+
+        firstTotalPriceArr.push(result);
       });
 
       const firstTotalCount =

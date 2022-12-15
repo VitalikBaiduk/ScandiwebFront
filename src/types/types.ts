@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export interface NavigationStateType {
   arrowActive: boolean;
+  activeCartOverlay: boolean;
 }
 
 export interface CurrencyItemType {
@@ -12,7 +13,6 @@ export interface CurrencyItemType {
 
 export interface CurrencyModalProps {
   setCurrency: (currency: string) => void;
-  mouseLeaveHandler: () => void;
   currenciesList: CurrencyItemType[];
 }
 

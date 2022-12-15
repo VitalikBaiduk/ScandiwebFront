@@ -38,18 +38,18 @@ interface ProductForCartProps extends ProductData {
   updatedPrices: any;
   attributeState: any[];
   className?: string;
-  productCount: (count: number, name: string) => void;
+  getProductCount: (count: number, name: string) => void;
+  productCount: number;
 }
 
 class ProductForCart extends Component<ProductForCartProps, any> {
   state = {
-    quantity: 1,
     imageNumber: 0,
   };
 
   render(): React.ReactNode {
     const stateCurrency = this.props.currency.currency;
-    let { quantity, imageNumber } = this.state;
+    let { imageNumber } = this.state;
     const {
       getTotalPrice,
       removeProduct,
@@ -59,8 +59,11 @@ class ProductForCart extends Component<ProductForCartProps, any> {
       attributes,
       attributeState,
       className,
+      getProductCount,
       productCount,
     } = this.props;
+
+    let quantity = productCount ? productCount : 1;
 
     const setClassName = className ? className : "";
 
@@ -72,10 +75,8 @@ class ProductForCart extends Component<ProductForCartProps, any> {
 
     const incProduct = () => {
       this.setState({ quantity: (quantity += 1) });
-      debugger;
-      productCount(quantity, name);
-      currentPrice &&
-        getTotalPrice(currentPrice ? currentPrice.amount : 0, true, false);
+      getProductCount(quantity, name);
+      getTotalPrice(currentPrice ? currentPrice.amount : 0, true, false);
     };
 
     const decProduct = () => {
@@ -83,9 +84,11 @@ class ProductForCart extends Component<ProductForCartProps, any> {
         this.setState({
           quantity: (quantity = quantity - 1),
         });
-        currentPrice &&
-          getTotalPrice(currentPrice ? currentPrice.amount : 0, false, true);
+
+        getProductCount(quantity, name);
+        getTotalPrice(currentPrice ? currentPrice.amount : 0, false, true);
       } else {
+        getProductCount(quantity, name);
         removeProduct(name);
       }
     };

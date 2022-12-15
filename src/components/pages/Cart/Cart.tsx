@@ -64,6 +64,7 @@ class Cart extends Component<any, {}> {
       increasetTotalPrice,
       reduceTotalPrice,
       removeProduct,
+      productCount,
     } = this.props;
 
     const products = cartReducer.data;
@@ -93,7 +94,8 @@ class Cart extends Component<any, {}> {
                   getTotalPrice={getTotalPrice}
                   updatedPrices={cartReducer.updatedPrices}
                   attributeState={el.activeAttebutes}
-                  productCount={productCount}
+                  getProductCount={productCount}
+                  productCount={el.count}
                 />
               </ProductWrapper>
             );

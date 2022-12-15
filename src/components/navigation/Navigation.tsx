@@ -19,15 +19,25 @@ import { connect } from "react-redux";
 import { graphql, MutateProps } from "@apollo/client/react/hoc";
 import { getCurrencies } from "../../api/getCurrencies";
 import { DataProps } from "react-apollo";
+import CartOverlay from "../pages/cart/cartOverlay/CartOverlay";
+import { changeCartOvelayStatus } from "../../state/actions/changeCartOvelayStatus";
 
 class Navigation extends Component<any, NavigationStateType> {
   state = {
     arrowActive: false,
+    activeCartOverlay: false,
   };
 
   render(): React.ReactNode {
-    const { arrowActive } = this.state;
-    const { changeCurrency, currency, cartReducer, data } = this.props;
+    const { arrowActive, activeCartOverlay } = this.state;
+    const {
+      changeCurrency,
+      currency,
+      cartReducer,
+      data,
+      changeCartOvelayStatus,
+      globalStateReducer,
+    } = this.props;
 
     const labelsArr = [
       { name: "all", path: "/all" },
@@ -37,10 +47,6 @@ class Navigation extends Component<any, NavigationStateType> {
 
     const setCurrency = (currencySign: string) => {
       changeCurrency(currencySign);
-      this.setState({ arrowActive: false });
-    };
-
-    const mouseLeaveHandler = () => {
       this.setState({ arrowActive: false });
     };
 
@@ -59,29 +65,29 @@ class Navigation extends Component<any, NavigationStateType> {
         <ActionsBlock>
           <WrapperCurrency
             onClick={() => this.setState({ arrowActive: !arrowActive })}
-            onMouseEnter={() => {
-              this.setState({ arrowActive: !arrowActive });
-            }}
           >
             <Currency>{currency.currency}</Currency>
             <StyledArrowIcon className={arrowActive ? "active" : ""} />
           </WrapperCurrency>
-          <BinWrapper to={"/cart"}>
+          <BinWrapper
+            onClick={() => {
+              this.setState({ activeCartOverlay: !activeCartOverlay });
+              changeCartOvelayStatus(!activeCartOverlay);
+            }}
+          >
             <Bin />
-            {cartReducer.length ? (
+            {cartReducer.length > 0 && (
               <CountOfElemInBin>{cartReducer.length}</CountOfElemInBin>
-            ) : (
-              <></>
             )}
           </BinWrapper>
           {arrowActive && (
             <CurrencyModal
-              mouseLeaveHandler={mouseLeaveHandler}
               setCurrency={setCurrency}
               currenciesList={data.currencies}
             />
           )}
         </ActionsBlock>
+        {globalStateReducer.isOpenCartOverlay && <CartOverlay />}
       </Wrapper>
     );
   }
@@ -91,12 +97,14 @@ const mapStateToProps = (state: any) => {
   return {
     currency: state.currency,
     cartReducer: state.cartReducer.data,
+    globalStateReducer: state.globalStateReducer,
   };
 };
 
 const mapDispatchToProps = () => {
   return {
     changeCurrency,
+    changeCartOvelayStatus,
   };
 };
 

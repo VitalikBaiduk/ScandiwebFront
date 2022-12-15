@@ -16,9 +16,9 @@ class CurrencyModal extends Component<
   };
 
   render(): React.ReactNode {
-    const { setCurrency, mouseLeaveHandler, currenciesList } = this.props;
+    const { setCurrency, currenciesList } = this.props;
     return (
-      <Wrapper onMouseLeave={mouseLeaveHandler}>
+      <Wrapper>
         {currenciesList.map((el: CurrencyItemType, index) => {
           return (
             <CurrencyItem

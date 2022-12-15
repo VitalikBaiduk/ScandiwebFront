@@ -6,6 +6,10 @@ export const ExtraWrapper = styled.div`
   padding: 30px 100px 100px 115px;
   box-sizing: border-box;
   margin: 0 auto;
+  &.blockScroll {
+    height: 100vh;
+    overflow: hidden;
+  }
 `;
 
 export const Wrapper = styled.div`

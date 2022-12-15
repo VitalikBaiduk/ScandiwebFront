@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ReactComponent as Arrow } from "../../assets/arrow.svg";
 
 export const Wrapper = styled.div`
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
@@ -80,7 +81,7 @@ export const StyledArrowIcon = styled(Arrow)`
   }
 `;
 
-export const BinWrapper = styled(Link)`
+export const BinWrapper = styled.div`
   position: relative;
   cursor: pointer;
   text-decoration: none;

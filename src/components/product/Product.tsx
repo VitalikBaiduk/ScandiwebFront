@@ -23,7 +23,6 @@ import {
   WrapperSmallImage,
 } from "./styles";
 import {
-  ActiveAttebutes,
   ProductAttributesItemsType,
   ProductAttributesType,
 } from "../../types/types";
@@ -88,6 +87,28 @@ class Product extends Component<any, any> {
     const isInactiveElements = currentAttributesArr.find((el: any) => {
       return el ? el.activeElement === null : "";
     });
+
+    const addProductToCart = () => {
+      let existingItem = false;
+      cartReducer.data.map((cartReducerItem: any) => {
+        existingItem =
+          JSON.stringify(cartReducerItem.activeAttebutes) ===
+          JSON.stringify(currentAttributesArr);
+      });
+
+      !isInactiveElements &&
+        !existingItem &&
+        addProduct(
+          {
+            gallery,
+            attributes,
+            name,
+            brand,
+            prices,
+          },
+          currentAttributesArr
+        );
+    };
 
     return (
       <Wrapper>
@@ -168,27 +189,7 @@ class Product extends Component<any, any> {
           </PriceValue>
           <AddToCartButton
             className={isInactiveElements ? "disable" : ""}
-            onClick={() => {
-              let existingItem = false;
-              cartReducer.data.map((cartReducerItem: any) => {
-                existingItem =
-                  JSON.stringify(cartReducerItem.activeAttebutes) ===
-                  JSON.stringify(currentAttributesArr);
-              });
-
-              !isInactiveElements &&
-                !existingItem &&
-                addProduct(
-                  {
-                    gallery,
-                    attributes,
-                    name,
-                    brand,
-                    prices,
-                  },
-                  currentAttributesArr
-                );
-            }}
+            onClick={addProductToCart}
           >
             ADD TO CART
           </AddToCartButton>
