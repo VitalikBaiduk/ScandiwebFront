@@ -29,7 +29,6 @@ class All extends Component<any, {}> {
               return (
                 <ExtraCardWrapper key={el.id} to={`proguct/${el.id}`}>
                   <ProductCard
-                    key={el.id}
                     imageUrl={el.gallery[0] ? el.gallery[0] : ""}
                     name={el.name}
                     price={price.currency.symbol + price.amount}

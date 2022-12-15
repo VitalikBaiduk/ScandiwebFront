@@ -83,6 +83,7 @@ class Cart extends Component<any, {}> {
             return (
               <ProductWrapper key={index}>
                 <ProductForCart
+                  key={index}
                   attributes={el.attributes}
                   brand={el.brand}
                   gallery={el.gallery}

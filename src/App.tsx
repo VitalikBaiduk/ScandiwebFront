@@ -34,6 +34,7 @@ class App extends React.Component<any, any> {
             element={<ProductPageContainer />}
           />
           <Route path="tech/proguct/:id" element={<ProductPageContainer />} />
+          <Route path="proguct/:id" element={<ProductPageContainer />} />
           <Route path="*" element={<AllPageContainer />} />
           <Route path="/cart" element={<Cart />} />
         </Routes>

@@ -159,9 +159,10 @@ export class CartOverlay extends Component<any, any> {
         </Title>
         <ProductWrapper>
           {products.length !== 0 &&
-            products.map((el: ProductDataWithActiveAttr) => {
+            products.map((el: ProductDataWithActiveAttr, index: number) => {
               return (
                 <ProductForCart
+                  key={index}
                   attributes={el.attributes}
                   brand={el.brand}
                   gallery={el.gallery}
