@@ -1,4 +1,4 @@
-import { ProductData, ProductDataWithActiveAttr } from "../../types/types";
+import { ProductDataWithActiveAttr } from "../../types/types";
 import {
   ProductCountType,
   AddProductType,

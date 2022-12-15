@@ -19,8 +19,9 @@ import { connect } from "react-redux";
 import { graphql, MutateProps } from "@apollo/client/react/hoc";
 import { getCurrencies } from "../../api/getCurrencies";
 import { DataProps } from "react-apollo";
-import CartOverlay from "../pages/cart/cartOverlay/CartOverlay";
+// import CartOverlay from "../pages/cart/cartOverlay/CartOverlay";
 import { changeCartOvelayStatus } from "../../state/actions/changeCartOvelayStatus";
+import CartOverlay from "../pages/Cart/cartOverlay/CartOverlay";
 
 class Navigation extends Component<any, NavigationStateType> {
   state = {
