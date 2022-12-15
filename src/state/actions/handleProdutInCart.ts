@@ -37,3 +37,10 @@ export const productCount = (
     activeAttebutes,
   } as const;
 };
+
+export type makeOrderType = ReturnType<typeof makeOrder>;
+export const makeOrder = () => {
+  return {
+    type: "MAKE_ORDER",
+  } as const;
+};

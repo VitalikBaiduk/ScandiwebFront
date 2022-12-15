@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { ReactComponent as SuccessOrder } from "../../../assets/successIcon.svg";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -136,4 +137,43 @@ export const OrderButton = styled.div`
   &:hover {
     background-color: #4aa361;
   }
+`;
+
+export const SuccessOrderBlock = styled.div`
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.4);
+`;
+
+export const SuccessOrderModal = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 100px 200px;
+`;
+
+export const SuccessOrderText = styled.span`
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 24px;
+  color: #1d1f22;
+  margin-top: 20px;
+`;
+
+export const StyledIcon = styled(SuccessOrder)`
+  width: 40%;
 `;

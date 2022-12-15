@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
+  makeOrder,
   productCount,
   removeProduct,
 } from "../../../state/actions/handleProdutInCart";
@@ -11,13 +12,16 @@ import {
 } from "../../../state/actions/changePrices";
 import ProductForCart from "../../product/components/productForCart/ProductForCart";
 import { ProductDataWithActiveAttr } from "../../../types/types";
-
 import { Title } from "../../../styles/global";
 import {
   BlockForEmptyBin,
   EmptyText,
   OrderButton,
   ProductWrapper,
+  StyledIcon,
+  SuccessOrderBlock,
+  SuccessOrderModal,
+  SuccessOrderText,
   ToShoppingLink,
   TotalBlockKey,
   TotalBlockValue,
@@ -54,7 +58,7 @@ class Cart extends Component<any, {}> {
     }
   }
   state = {
-    totalPrice: 0,
+    order: false,
   };
 
   render(): React.ReactNode {
@@ -65,6 +69,7 @@ class Cart extends Component<any, {}> {
       reduceTotalPrice,
       removeProduct,
       productCount,
+      makeOrder,
     } = this.props;
 
     const products = cartReducer.data;
@@ -127,8 +132,23 @@ class Cart extends Component<any, {}> {
               Total:{" "}
               <TotalValue>{stateCurrency + cartReducer.totalPrice}</TotalValue>
             </TotalKey>
-            <OrderButton>ORDER</OrderButton>
+            <OrderButton
+              onClick={() => {
+                this.setState({ order: true });
+                makeOrder();
+              }}
+            >
+              ORDER
+            </OrderButton>
           </TotalPriceBlock>
+        )}
+        {this.state.order && (
+          <SuccessOrderBlock onClick={() => this.setState({ order: false })}>
+            <SuccessOrderModal>
+              <StyledIcon />
+              <SuccessOrderText>The order was completed</SuccessOrderText>
+            </SuccessOrderModal>
+          </SuccessOrderBlock>
         )}
       </Wrapper>
     );
@@ -149,6 +169,7 @@ const mapDuspatchToProps = () => {
     increasetTotalPrice,
     reduceTotalPrice,
     productCount,
+    makeOrder,
   };
 };
 

@@ -3,6 +3,7 @@ import {
   ProductCountType,
   AddProductType,
   RemoveProductType,
+  makeOrderType,
 } from "../actions/handleProdutInCart";
 import {
   ChangeFirstTotalPriceType,
@@ -21,7 +22,7 @@ const initialState: initialStateType = {
   totalPrice: 0,
   tax: 0,
 };
-//ProductData
+
 export const cartReducer = (
   state: initialStateType = initialState,
   action:
@@ -31,6 +32,7 @@ export const cartReducer = (
     | IncreasetTotalPriceType
     | ReduceTotalPriceType
     | ProductCountType
+    | makeOrderType
 ) => {
   switch (action.type) {
     case "ADD_PRODUCT":
@@ -99,7 +101,8 @@ export const cartReducer = (
         totalPrice: (reduceTotalPrice - reduceTax).toFixed(2),
         tax: state.tax - reduceTax,
       };
-
+    case "MAKE_ORDER":
+      return { ...state, data: [], totalPrice: 0, tax: 0 };
     default:
       return state;
   }
