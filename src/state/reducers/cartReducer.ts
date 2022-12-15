@@ -21,7 +21,7 @@ const initialState: initialStateType = {
   totalPrice: 0,
   tax: 0,
 };
-
+//ProductData
 export const cartReducer = (
   state: initialStateType = initialState,
   action:
@@ -42,11 +42,21 @@ export const cartReducer = (
     case "REMOVE_PRODUCT":
       return {
         ...state,
-        data: state.data.filter((el: ProductData) => el.name !== action.name),
+        data: state.data.filter((el: ProductDataWithActiveAttr) => {
+          return state.data.length >= 2
+            ? el.name !== action.name ||
+                JSON.stringify(el.activeAttebutes) !==
+                  JSON.stringify(action.activeAttebutes)
+            : el.name !== action.name;
+        }),
       };
     case "PRODUCT_COUNT":
       const newData = state.data.map((el) => {
-        return el.name === action.name ? { ...el, count: action.count } : el;
+        return el.name === action.name &&
+          JSON.stringify(el.activeAttebutes) ===
+            JSON.stringify(action.activeAttebutes)
+          ? { ...el, count: action.count }
+          : el;
       });
       return { ...state, data: newData };
     case "SET_FIRST_TOTAL_PRICE":

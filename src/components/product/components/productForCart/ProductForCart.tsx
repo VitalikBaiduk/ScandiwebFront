@@ -3,6 +3,7 @@ import { ProductAttributeName } from "../../../../enums/ProductAttributeName";
 import { ProductStateType } from "../../../../state/reducers/productReducer";
 import { ReactComponent as Arrow } from "./assets/LeftArrow.svg";
 import {
+  ActiveAttebutes,
   ProductAttributesItemsType,
   ProductAttributesType,
   ProductData,
@@ -33,12 +34,16 @@ import {
 
 interface ProductForCartProps extends ProductData {
   currency: any;
-  removeProduct: (name: string) => void;
+  removeProduct: (name: string, activeAttebutes: ActiveAttebutes[]) => void;
   getTotalPrice: (price: number, inc: boolean, decr: boolean) => void;
   updatedPrices: any;
-  attributeState: any[];
+  attributeState: ActiveAttebutes[];
   className?: string;
-  getProductCount: (count: number, name: string) => void;
+  getProductCount: (
+    count: number,
+    name: string,
+    activeAttebutes: ActiveAttebutes[]
+  ) => void;
   productCount: number;
 }
 
@@ -75,7 +80,7 @@ class ProductForCart extends Component<ProductForCartProps, any> {
 
     const incProduct = () => {
       this.setState({ quantity: (quantity += 1) });
-      getProductCount(quantity, name);
+      getProductCount(quantity, name, attributeState);
       getTotalPrice(currentPrice ? currentPrice.amount : 0, true, false);
     };
 
@@ -85,11 +90,11 @@ class ProductForCart extends Component<ProductForCartProps, any> {
           quantity: (quantity = quantity - 1),
         });
 
-        getProductCount(quantity, name);
+        getProductCount(quantity, name, attributeState);
         getTotalPrice(currentPrice ? currentPrice.amount : 0, false, true);
       } else {
-        getProductCount(quantity, name);
-        removeProduct(name);
+        getProductCount(quantity, name, attributeState);
+        removeProduct(name, attributeState);
       }
     };
     const onImageControllButtonClick = (buttonType: string) => {
@@ -127,11 +132,10 @@ class ProductForCart extends Component<ProductForCartProps, any> {
                 <WrapeprAttributesItem className={setClassName}>
                   {element.items.map(
                     (item: ProductAttributesItemsType, index: number) => {
-                      const activeItem: ProductStateType = attributeState.find(
-                        (el: ProductStateType) => {
+                      const activeItem: ActiveAttebutes | undefined =
+                        attributeState.find((el: ProductStateType) => {
                           return el.name === element.name;
-                        }
-                      );
+                        });
                       const isActive = activeItem
                         ? activeItem.activeElement === index
                           ? "active"
