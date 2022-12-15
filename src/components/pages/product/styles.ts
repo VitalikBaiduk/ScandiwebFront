@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ProductColorAttributesItemProps } from "../../types/types";
+import { ProductColorAttributesItemProps } from "../../../types/types";
 
 export const Wrapper = styled.div`
   width: 100%;

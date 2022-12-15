@@ -12,7 +12,7 @@ import {
   removeProduct,
 } from "../../../../state/actions/handleProdutInCart";
 import { ProductDataWithActiveAttr } from "../../../../types/types";
-import ProductForCart from "../../../product/components/productForCart/ProductForCart";
+import ProductForCart from "../../product/components/productForCart/ProductForCart";
 import {
   ButtonBlock,
   ButtonText,

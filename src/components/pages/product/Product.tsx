@@ -1,8 +1,8 @@
 import React, { Component, ComponentType } from "react";
 import { DataProps, graphql, MutateProps } from "@apollo/client/react/hoc";
-import { getProduct } from "../../api/getProduct";
-import { withRouter } from "../../utils/withRouter";
-import { ProductAttributeName } from "../../enums/ProductAttributeName";
+import { getProduct } from "../../../api/getProduct";
+import { withRouter } from "../../../utils/withRouter";
+import { ProductAttributeName } from "../../../enums/ProductAttributeName";
 import {
   AddToCartButton,
   AttributesBlock,
@@ -25,14 +25,14 @@ import {
 import {
   ProductAttributesItemsType,
   ProductAttributesType,
-} from "../../types/types";
+} from "../../../types/types";
 import { connect } from "react-redux";
 import {
   changeProductState,
   clearProductState,
-} from "../../state/actions/changeProductState";
-import { ProductStateType } from "../../state/reducers/productReducer";
-import { addProduct } from "../../state/actions/handleProdutInCart";
+} from "../../../state/actions/changeProductState";
+import { ProductStateType } from "../../../state/reducers/productReducer";
+import { addProduct } from "../../../state/actions/handleProdutInCart";
 
 class Product extends Component<any, any> {
   componentDidMount(): void {

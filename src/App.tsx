@@ -5,11 +5,11 @@ import AllPageContainer from "./components/pages/all/All";
 import ClothesPageContainer from "./components/pages/clothes/Clothes";
 import { Route, Routes } from "react-router-dom";
 import TechnicPageContainer from "./components/pages/tech/Technic";
-import ProductPageContainer from "./components/product/Product";
+import ProductPageContainer from "./components/pages/product/Product";
 import { ExtraWrapper, OpenModal } from "./styles/global";
 import { connect } from "react-redux";
 import { changeCartOvelayStatus } from "./state/actions/changeCartOvelayStatus";
-import Cart from "./components/pages/Cart/Cart";
+import Cart from "./components/pages/сart/Cart";
 
 class App extends React.Component<any, any> {
   render(): React.ReactNode {

@@ -1,9 +1,9 @@
 import React, { Component, ComponentType } from "react";
 import { graphql, MutateProps } from "@apollo/client/react/hoc";
-import ProductCard from "../../product/components/productCard/ProductCard";
+import ProductCard from "../product/components/productCard/ProductCard";
 import { ProductCardWrapper, Title, Wrapper } from "../../../styles/global";
 import { getAllItem } from "../../../api/getAll";
-import { ExtraCardWrapper } from "../../product/components/productCard/styles";
+import { ExtraCardWrapper } from "../product/components/productCard/styles";
 import { connect } from "react-redux";
 import { DataProps } from "react-apollo";
 

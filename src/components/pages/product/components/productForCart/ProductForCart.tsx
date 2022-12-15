@@ -1,13 +1,13 @@
 import React, { Component } from "react";
-import { ProductAttributeName } from "../../../../enums/ProductAttributeName";
-import { ProductStateType } from "../../../../state/reducers/productReducer";
+import { ProductAttributeName } from "../../../../../enums/ProductAttributeName";
+import { ProductStateType } from "../../../../../state/reducers/productReducer";
 import { ReactComponent as Arrow } from "./assets/LeftArrow.svg";
 import {
   ActiveAttebutes,
   ProductAttributesItemsType,
   ProductAttributesType,
   ProductData,
-} from "../../../../types/types";
+} from "../../../../../types/types";
 import {
   AttributesBlock,
   AttributesItem,

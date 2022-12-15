@@ -10,7 +10,7 @@ import {
   increasetTotalPrice,
   reduceTotalPrice,
 } from "../../../state/actions/changePrices";
-import ProductForCart from "../../product/components/productForCart/ProductForCart";
+import ProductForCart from "../product/components/productForCart/ProductForCart";
 import { ProductDataWithActiveAttr } from "../../../types/types";
 import { Title } from "../../../styles/global";
 import {

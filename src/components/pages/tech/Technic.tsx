@@ -1,9 +1,9 @@
 import React, { Component, ComponentType } from "react";
 import { DataProps, graphql, MutateProps } from "@apollo/client/react/hoc";
 import { ProductCardWrapper, Title, Wrapper } from "../../../styles/global";
-import ProductCard from "../../product/components/productCard/ProductCard";
+import ProductCard from "../product/components/productCard/ProductCard";
 import { getTechnic } from "../../../api/getTechnic";
-import { ExtraCardWrapper } from "../../product/components/productCard/styles";
+import { ExtraCardWrapper } from "../product/components/productCard/styles";
 import { connect } from "react-redux";
 
 class Technic extends Component<any, {}> {

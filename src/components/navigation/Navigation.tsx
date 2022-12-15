@@ -20,7 +20,7 @@ import { graphql, MutateProps } from "@apollo/client/react/hoc";
 import { getCurrencies } from "../../api/getCurrencies";
 import { DataProps } from "react-apollo";
 import { changeCartOvelayStatus } from "../../state/actions/changeCartOvelayStatus";
-import CartOverlay from "../pages/Cart/cartOverlay/CartOverlay";
+import CartOverlay from "../pages/сart/cartOverlay/CartOverlay";
 
 class Navigation extends Component<any, NavigationStateType> {
   state = {

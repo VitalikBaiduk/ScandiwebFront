@@ -2,8 +2,8 @@ import React, { Component, ComponentType } from "react";
 import { DataProps, graphql, MutateProps } from "@apollo/client/react/hoc";
 import { ProductCardWrapper, Title, Wrapper } from "../../../styles/global";
 import { getClothesItem } from "../../../api/getClothes";
-import ProductCard from "../../product/components/productCard/ProductCard";
-import { ExtraCardWrapper } from "../../product/components/productCard/styles";
+import ProductCard from "../product/components/productCard/ProductCard";
+import { ExtraCardWrapper } from "../product/components/productCard/styles";
 import { connect } from "react-redux";
 
 class Clothes extends Component<any, {}> {
