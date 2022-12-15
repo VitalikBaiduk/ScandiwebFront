@@ -10,7 +10,6 @@ import { ExtraWrapper } from "./styles/global";
 import Cart from "./components/pages/cart/Cart";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { editableInputTypes } from "@testing-library/user-event/dist/utils";
 
 export const NavigationWrapper = styled.div`
   width: 100%;

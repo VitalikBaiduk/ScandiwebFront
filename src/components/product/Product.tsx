@@ -91,9 +91,13 @@ class Product extends Component<any, any> {
     const addProductToCart = () => {
       let existingItem = false;
       cartReducer.data.map((cartReducerItem: any) => {
-        existingItem =
-          JSON.stringify(cartReducerItem.activeAttebutes) ===
-          JSON.stringify(currentAttributesArr);
+        if (cartReducerItem.name === name) {
+          existingItem =
+            JSON.stringify(cartReducerItem.activeAttebutes) ===
+            JSON.stringify(currentAttributesArr);
+        } else {
+          existingItem = false;
+        }
       });
 
       !isInactiveElements &&
