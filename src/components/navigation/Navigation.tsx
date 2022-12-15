@@ -1,9 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, ComponentType } from "react";
 import { ReactComponent as BrandIcon } from "../../assets/BrandIcon.svg";
 import { ReactComponent as Bin } from "../../assets/Bin.svg";
 import CurrencyModal from "./currencyModal/CurrencyModal";
 import {
   ActionsBlock,
+  BinWrapper,
+  CountOfElemInBin,
   Currency,
   NavigationLabels,
   StyledArrowIcon,
@@ -12,15 +14,30 @@ import {
   WrapperNavigationLabels,
 } from "./styles";
 import { NavigationStateType } from "../../types/types";
+import { changeCurrency } from "../../state/actions/changeCurrency";
+import { connect } from "react-redux";
+import { graphql, MutateProps } from "@apollo/client/react/hoc";
+import { getCurrencies } from "../../api/getCurrencies";
+import { DataProps } from "react-apollo";
+import CartOverlay from "../pages/cart/cartOverlay/CartOverlay";
+import { changeCartOvelayStatus } from "../../state/actions/changeCartOvelayStatus";
 
 class Navigation extends Component<any, NavigationStateType> {
   state = {
     arrowActive: false,
-    currency: "$",
+    activeCartOverlay: false,
   };
 
   render(): React.ReactNode {
-    const { arrowActive, currency } = this.state;
+    const { arrowActive, activeCartOverlay } = this.state;
+    const {
+      changeCurrency,
+      currency,
+      cartReducer,
+      data,
+      changeCartOvelayStatus,
+      globalStateReducer,
+    } = this.props;
 
     const labelsArr = [
       { name: "all", path: "/all" },
@@ -29,10 +46,7 @@ class Navigation extends Component<any, NavigationStateType> {
     ];
 
     const setCurrency = (currencySign: string) => {
-      this.setState({ arrowActive: false, currency: currencySign });
-    };
-
-    const mouseLeaveHandler = () => {
+      changeCurrency(currencySign);
       this.setState({ arrowActive: false });
     };
 
@@ -50,24 +64,57 @@ class Navigation extends Component<any, NavigationStateType> {
         <BrandIcon />
         <ActionsBlock>
           <WrapperCurrency
-            onMouseEnter={() => {
-              this.setState({ arrowActive: !arrowActive });
-            }}
+            onClick={() => this.setState({ arrowActive: !arrowActive })}
           >
-            <Currency>{currency}</Currency>
+            <Currency>{currency.currency}</Currency>
             <StyledArrowIcon className={arrowActive ? "active" : ""} />
           </WrapperCurrency>
-          <Bin />
+          <BinWrapper
+            onClick={() => {
+              this.setState({ activeCartOverlay: !activeCartOverlay });
+              changeCartOvelayStatus(!activeCartOverlay);
+            }}
+          >
+            <Bin />
+            {cartReducer.length > 0 && (
+              <CountOfElemInBin>{cartReducer.length}</CountOfElemInBin>
+            )}
+          </BinWrapper>
           {arrowActive && (
             <CurrencyModal
-              mouseLeaveHandler={mouseLeaveHandler}
               setCurrency={setCurrency}
+              currenciesList={data.currencies}
             />
           )}
         </ActionsBlock>
+        {globalStateReducer.isOpenCartOverlay && <CartOverlay />}
       </Wrapper>
     );
   }
 }
 
-export default Navigation;
+const mapStateToProps = (state: any) => {
+  return {
+    currency: state.currency,
+    cartReducer: state.cartReducer.data,
+    globalStateReducer: state.globalStateReducer,
+  };
+};
+
+const mapDispatchToProps = () => {
+  return {
+    changeCurrency,
+    changeCartOvelayStatus,
+  };
+};
+
+const NavigationContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps()
+)(Navigation);
+
+export default graphql(getCurrencies)(
+  NavigationContainer as ComponentType<
+    Partial<DataProps<{}, {}>> & Partial<MutateProps<{}, {}>>
+  >
+);

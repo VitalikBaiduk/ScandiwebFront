@@ -38,6 +38,8 @@ export const MainImage = styled.img`
 `;
 
 export const InfoBlock = styled.div`
+  width: 100%;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -48,6 +50,11 @@ export const NameOfItem = styled.span`
   font-size: 30px;
   line-height: 27px;
   color: #1d1f22;
+  &.overlay {
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 160%;
+  }
 `;
 
 export const Brand = styled.span`
@@ -56,6 +63,11 @@ export const Brand = styled.span`
   line-height: 27px;
   color: #1d1f22;
   margin-top: 15px;
+  &.overlay {
+    font-weight: 300;
+    font-size: 16px;
+    margin: 0;
+  }
 `;
 
 export const AttributesBlock = styled.div`
@@ -65,6 +77,12 @@ export const AttributesBlock = styled.div`
   margin-top: 25px;
   &.firstAttribute {
     margin-top: 45px;
+    &.overlay {
+      margin-top: 10px;
+    }
+  }
+  &.overlay {
+    margin-top: 10px;
   }
 `;
 
@@ -76,6 +94,11 @@ export const AttributesName = styled.span`
   text-transform: uppercase;
   line-height: 18px;
   color: #1d1f22;
+  &.overlay {
+    font-family: "Raleway";
+    font-weight: 400;
+    font-size: 14px;
+  }
 `;
 
 export const WrapeprAttributesItem = styled.div`
@@ -84,6 +107,9 @@ export const WrapeprAttributesItem = styled.div`
   gap: 15px;
   flex-wrap: wrap;
   margin-top: 10px;
+  &.overlay {
+    gap: 8px;
+  }
 `;
 
 export const AttributesItem = styled.div`
@@ -96,9 +122,18 @@ export const AttributesItem = styled.div`
   color: #1d1f22;
   cursor: pointer;
   transition: 0.2s linear;
-  &:hover {
+  box-sizing: border-box;
+  &.active {
     background-color: #1d1f22;
     color: #ffffff;
+    &.overlay {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  &.overlay {
+    width: 24px;
+    height: 24px;
   }
 `;
 
@@ -108,8 +143,20 @@ export const ColorAttributesItem = styled.div<ProductColorAttributesItemProps>`
   border: 1px solid white;
   cursor: pointer;
   background-color: ${(props: any) => props.backgroundColor};
-  &:hover {
+  transition: 0.2s linear;
+  &.active {
     border: 1px solid #5ece7b;
+    transform: scale(1.1);
+  }
+  &.forWhite {
+    border: 1px solid black;
+    &.active {
+      border: 1px solid #5ece7b;
+    }
+  }
+  &.overlay {
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -133,7 +180,6 @@ export const PriceValue = styled.span`
 
 export const AddToCartButton = styled.button`
   width: 100%;
-  max-width: 300px;
   background: #5ece7b;
   color: #ffffff;
   cursor: pointer;
@@ -144,6 +190,9 @@ export const AddToCartButton = styled.button`
   transition: 0.2s linear;
   &:hover {
     background-color: #4aa361;
+  }
+  &.disable {
+    background: #d3d3d3;
   }
 `;
 

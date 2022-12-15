@@ -1,15 +1,21 @@
-import React, { Component } from "react";
-import { graphql } from "@apollo/client/react/hoc";
-import ProductCard from "../../productCard/ProductCard";
+import React, { Component, ComponentType } from "react";
+import { graphql, MutateProps } from "@apollo/client/react/hoc";
+import ProductCard from "../../product/components/productCard/ProductCard";
 import { ProductCardWrapper, Title, Wrapper } from "../../../styles/global";
 import { getAllItem } from "../../../api/getAll";
-import { ExtraCardWrapper } from "../../productCard/styles";
+import { ExtraCardWrapper } from "../../product/components/productCard/styles";
+import { connect } from "react-redux";
+import { DataProps } from "react-apollo";
 
 class All extends Component<any, {}> {
   render(): React.ReactNode {
     const { products } = this.props.data.category
       ? this.props.data.category
-      : { products: [] };
+      : {
+          products: [],
+        };
+
+    const stateCurrency = this.props.currency.currency;
 
     return (
       <Wrapper>
@@ -17,13 +23,16 @@ class All extends Component<any, {}> {
         <ProductCardWrapper>
           {products.length &&
             products.map((el: any) => {
+              const price = el.prices.find((priceItem: any) => {
+                return stateCurrency === priceItem.currency.symbol;
+              });
               return (
                 <ExtraCardWrapper key={el.id} to={`proguct/${el.id}`}>
                   <ProductCard
                     key={el.id}
                     imageUrl={el.gallery[0] ? el.gallery[0] : ""}
                     name={el.name}
-                    price={el.prices[0].currency.symbol + el.prices[0].amount}
+                    price={price.currency.symbol + price.amount}
                   />
                 </ExtraCardWrapper>
               );
@@ -34,4 +43,15 @@ class All extends Component<any, {}> {
   }
 }
 
-export default graphql(getAllItem)(All);
+const mapStateToProps = (state: any) => {
+  return {
+    currency: state.currency,
+  };
+};
+
+const AllPageContainer = connect(mapStateToProps, {})(All);
+export default graphql(getAllItem)(
+  AllPageContainer as ComponentType<
+    Partial<DataProps<{}, {}>> & Partial<MutateProps<{}, {}>>
+  >
+);

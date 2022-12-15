@@ -1,34 +1,11 @@
 import React, { Component } from "react";
-import styled from "styled-components";
 import {
   CurrencyModalProps,
   CurrencyModalStateType,
+  CurrencyItemType,
 } from "../../../types/types";
-
-const Wrapper = styled.div`
-  position: absolute;
-  max-width: 115px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  top: 25px;
-  left: 121px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  background-color: #ffffffff;
-`;
-
-const CurrencyItem = styled.span`
-  padding: 10px 20px;
-  transition: 0.2s linear;
-  cursor: pointer;
-  &:hover {
-    background-color: #eeeeee;
-  }
-  &.active {
-    background-color: #eeeeee;
-  }
-`;
+import { Wrapper } from "./styles";
+import { CurrencyItem } from "./styles";
 
 class CurrencyModal extends Component<
   CurrencyModalProps,
@@ -39,21 +16,18 @@ class CurrencyModal extends Component<
   };
 
   render(): React.ReactNode {
-    const { setCurrency, mouseLeaveHandler } = this.props;
-
-    const currencyArr = ["$ USD", "€ EUR", "¥ JPY"];
-
+    const { setCurrency, currenciesList } = this.props;
     return (
-      <Wrapper onMouseLeave={mouseLeaveHandler}>
-        {currencyArr.map((el, index) => {
+      <Wrapper>
+        {currenciesList.map((el: CurrencyItemType, index) => {
           return (
             <CurrencyItem
               key={index}
               onClick={() => {
-                setCurrency(el[0]);
+                setCurrency(el.symbol);
               }}
             >
-              {el}
+              {el.symbol + " " + el.label}
             </CurrencyItem>
           );
         })}
