@@ -7,6 +7,14 @@ import {
   TextInfo,
   Wrapper,
 } from "./styles";
+import { ReactComponent as CartIcon } from "../../../../../assets/CircleIcon.svg";
+import styled from "styled-components";
+
+export const StyledCartIcon = styled(CartIcon)`
+  position: absolute;
+  bottom: 75px;
+  right: 30px;
+`;
 
 class ProductCard extends Component<ProductCardProps, {}> {
   render(): React.ReactNode {
@@ -19,6 +27,7 @@ class ProductCard extends Component<ProductCardProps, {}> {
           <ProductName>{name}</ProductName>
           <ProductPrice>{price}</ProductPrice>
         </TextInfo>
+        <StyledCartIcon />
       </Wrapper>
     );
   }

@@ -10,6 +10,7 @@ export const ExtraCardWrapper = styled(Link)`
 `;
 
 export const Wrapper = styled.div`
+  position: relative;
   width: 100%;
   max-width: 355px;
   display: flex;
@@ -20,9 +21,15 @@ export const Wrapper = styled.div`
   transition: 0.1s linear;
   border-radius: 6px;
   cursor: pointer;
+  & > svg {
+    display: none;
+  }
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     transform: scale(1.1);
+    & > svg {
+      display: block;
+    }
   }
 `;
 
