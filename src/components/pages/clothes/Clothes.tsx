@@ -3,8 +3,12 @@ import { DataProps, graphql, MutateProps } from "@apollo/client/react/hoc";
 import { ProductCardWrapper, Title, Wrapper } from "../../../styles/global";
 import { getClothesItem } from "../../../api/getClothes";
 import ProductCard from "../product/components/productCard/ProductCard";
-import { ExtraCardWrapper } from "../product/components/productCard/styles";
+import {
+  ExtraCardWrapper,
+  LinkCardWrapper,
+} from "../product/components/productCard/styles";
 import { connect } from "react-redux";
+import { StyledCartIcon } from "../product/styles";
 
 class Clothes extends Component<any, {}> {
   render(): React.ReactNode {
@@ -24,12 +28,15 @@ class Clothes extends Component<any, {}> {
                 return stateCurrency === priceItem.currency.symbol;
               });
               return (
-                <ExtraCardWrapper key={el.id} to={`proguct/${el.id}`}>
-                  <ProductCard
-                    imageUrl={el.gallery[0] ? el.gallery[0] : ""}
-                    name={el.name}
-                    price={price.currency.symbol + price.amount}
-                  />
+                <ExtraCardWrapper key={el.id}>
+                  <LinkCardWrapper to={`proguct/${el.id}`}>
+                    <ProductCard
+                      imageUrl={el.gallery[0] ? el.gallery[0] : ""}
+                      name={el.name}
+                      price={price.currency.symbol + price.amount}
+                    />
+                  </LinkCardWrapper>
+                  <StyledCartIcon />
                 </ExtraCardWrapper>
               );
             })}

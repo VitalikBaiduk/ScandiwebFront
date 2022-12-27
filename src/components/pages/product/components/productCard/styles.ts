@@ -1,26 +1,9 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const ExtraCardWrapper = styled(Link)`
-  width: 100%;
-  display: flex;
-  text-decoration: none;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const Wrapper = styled.div`
+export const ExtraCardWrapper = styled.div`
   position: relative;
-  width: 100%;
-  max-width: 355px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 30px;
-  box-sizing: border-box;
   transition: 0.1s linear;
-  border-radius: 6px;
-  cursor: pointer;
   & > svg {
     display: none;
   }
@@ -29,8 +12,29 @@ export const Wrapper = styled.div`
     transform: scale(1.1);
     & > svg {
       display: block;
+      cursor: pointer;
     }
   }
+`;
+
+export const LinkCardWrapper = styled(Link)`
+  width: 100%;
+  display: flex;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Wrapper = styled.div`
+  width: 100%;
+  max-width: 355px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px;
+  box-sizing: border-box;
+  border-radius: 6px;
+  cursor: pointer;
 `;
 
 export const StyledImage = styled.img`

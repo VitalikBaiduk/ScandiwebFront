@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { ProductColorAttributesItemProps } from "../../../types/types";
+import { ReactComponent as CartIcon } from "../../../assets/CircleIcon.svg";
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -200,4 +201,10 @@ export const WrapperProductDescription = styled.div`
   width: 100%;
   max-width: 300px;
   margin-top: 40px;
+`;
+
+export const StyledCartIcon = styled(CartIcon)`
+  position: absolute;
+  bottom: 75px;
+  right: 30px;
 `;
