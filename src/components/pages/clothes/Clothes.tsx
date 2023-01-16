@@ -12,15 +12,15 @@ import { StyledCartIcon } from "../product/styles";
 
 class Clothes extends Component<any, {}> {
   render(): React.ReactNode {
-    const { products } = this.props.data.category
+    const { products, name } = this.props.data.category
       ? this.props.data.category
-      : { products: [] };
+      : { name: "", products: [] };
 
     const stateCurrency = this.props.currency.currency;
 
     return (
       <Wrapper>
-        <Title>Clothes</Title>
+        <Title>{name}</Title>
         <ProductCardWrapper>
           {products.length &&
             products.map((el: any) => {

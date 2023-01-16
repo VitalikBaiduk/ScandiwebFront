@@ -13,9 +13,10 @@ import { StyledCartIcon } from "../product/styles";
 
 class All extends Component<any, {}> {
   render(): React.ReactNode {
-    const { products } = this.props.data.category
+    const { products, name } = this.props.data.category
       ? this.props.data.category
       : {
+          name: "",
           products: [],
         };
 
@@ -23,7 +24,7 @@ class All extends Component<any, {}> {
 
     return (
       <Wrapper>
-        <Title>All</Title>
+        <Title>{name}</Title>
         <ProductCardWrapper>
           {products.length &&
             products.map((el: any, index: number) => {
