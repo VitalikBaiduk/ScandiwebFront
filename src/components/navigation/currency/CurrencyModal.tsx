@@ -4,8 +4,8 @@ import {
   CurrencyModalStateType,
   CurrencyItemType,
 } from "../../../types/types";
-import { Wrapper } from "./styles";
-import { CurrencyItem } from "./styles";
+import { CurrencyItem } from "../components/currency/styles";
+import { Wrapper } from "../styles";
 
 class CurrencyModal extends Component<
   CurrencyModalProps,
