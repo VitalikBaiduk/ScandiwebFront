@@ -33,6 +33,7 @@ import {
 } from "../../../state/actions/changeProductState";
 import { ProductStateType } from "../../../state/reducers/productReducer";
 import { addProduct } from "../../../state/actions/handleProdutInCart";
+import parse from "html-react-parser";
 
 class Product extends Component<any, any> {
   componentDidMount(): void {
@@ -115,6 +116,7 @@ class Product extends Component<any, any> {
           currentAttributesArr
         );
     };
+    console.log(description);
 
     return (
       <Wrapper>
@@ -204,10 +206,9 @@ class Product extends Component<any, any> {
           >
             ADD TO CART
           </AddToCartButton>
-          <WrapperProductDescription
-            style={{ fontFamily: "Roboto Condensed" }}
-            dangerouslySetInnerHTML={{ __html: description }}
-          ></WrapperProductDescription>
+          <WrapperProductDescription>
+            {parse(description)}
+          </WrapperProductDescription>
         </InfoBlock>
       </Wrapper>
     );
