@@ -35,7 +35,7 @@ export const cartReducer = (
     | ProductCountType
     | makeOrderType
 ) => {
-  console.log(state);
+  // console.log(state);
 
   switch (action.type) {
     case "ADD_PRODUCT":
@@ -43,8 +43,6 @@ export const cartReducer = (
         ...action.product,
         activeAttebutes: action.attributes,
       };
-      console.log(state);
-
       return { ...state, data: [...state.data, newProduct] };
     case "REMOVE_PRODUCT":
       return {

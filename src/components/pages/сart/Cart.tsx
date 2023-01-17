@@ -75,6 +75,11 @@ class Cart extends Component<any, {}> {
     const products = cartReducer.data;
     const stateCurrency = currency.currency;
 
+    let quantity = 0;
+    products.map((el: any) =>
+      el.count ? (quantity += el.count) : (quantity += 1)
+    );
+
     const getTotalPrice = (price: number, inc: boolean, decr: boolean) => {
       inc && increasetTotalPrice(price);
       decr && reduceTotalPrice(price);
@@ -126,8 +131,7 @@ class Cart extends Component<any, {}> {
               </TotalBlockValue>
             </TotalBlockKey>
             <TotalBlockKey>
-              Quantity:{" "}
-              <TotalBlockValue>{products && products.length}</TotalBlockValue>
+              Quantity: <TotalBlockValue>{quantity}</TotalBlockValue>
             </TotalBlockKey>
             <TotalKey>
               Total:{" "}

@@ -42,6 +42,12 @@ class Navigation extends Component<any, NavigationStateType> {
       this.setState({ arrowActive: false });
     };
 
+    const products = cartReducer;
+    let quantity = 0;
+    products.map((el: any) =>
+      el.count ? (quantity += el.count) : (quantity += 1)
+    );
+
     return (
       <Wrapper>
         <WrapperNavigationLabels>
@@ -67,7 +73,7 @@ class Navigation extends Component<any, NavigationStateType> {
           >
             <Bin />
             {cartReducer.length > 0 && (
-              <CountOfElemInBin>{cartReducer.length}</CountOfElemInBin>
+              <CountOfElemInBin>{quantity}</CountOfElemInBin>
             )}
           </BinWrapper>
           {arrowActive && (
