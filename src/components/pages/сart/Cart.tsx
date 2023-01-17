@@ -102,6 +102,7 @@ class Cart extends Component<any, {}> {
                   attributeState={el.activeAttebutes}
                   getProductCount={productCount}
                   productCount={el.count}
+                  id={el.id}
                 />
               </ProductWrapper>
             );

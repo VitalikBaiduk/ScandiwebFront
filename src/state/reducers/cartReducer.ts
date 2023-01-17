@@ -10,6 +10,7 @@ import {
   IncreasetTotalPriceType,
   ReduceTotalPriceType,
 } from "../actions/changePrices";
+import { logMissingFieldErrors } from "@apollo/client/core/ObservableQuery";
 
 interface initialStateType {
   data: ProductDataWithActiveAttr[];
@@ -34,31 +35,27 @@ export const cartReducer = (
     | ProductCountType
     | makeOrderType
 ) => {
+  console.log(state);
+
   switch (action.type) {
     case "ADD_PRODUCT":
       const newProduct = {
         ...action.product,
         activeAttebutes: action.attributes,
       };
+      console.log(state);
+
       return { ...state, data: [...state.data, newProduct] };
     case "REMOVE_PRODUCT":
       return {
         ...state,
         data: state.data.filter((el: ProductDataWithActiveAttr) => {
-          return state.data.length >= 2
-            ? el.name !== action.name ||
-                JSON.stringify(el.activeAttebutes) !==
-                  JSON.stringify(action.activeAttebutes)
-            : el.name !== action.name;
+          return el.id !== action.id;
         }),
       };
     case "PRODUCT_COUNT":
       const newData = state.data.map((el) => {
-        return el.name === action.name &&
-          JSON.stringify(el.activeAttebutes) ===
-            JSON.stringify(action.activeAttebutes)
-          ? { ...el, count: action.count }
-          : el;
+        return el.id === action.id ? { ...el, count: action.count } : el;
       });
       return { ...state, data: newData };
     case "SET_FIRST_TOTAL_PRICE":

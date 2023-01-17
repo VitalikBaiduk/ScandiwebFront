@@ -95,6 +95,7 @@ export class CartOverlay extends Component<any, any> {
                   className={"overlay"}
                   getProductCount={productCount}
                   productCount={el.count}
+                  id={el.id}
                 />
               );
             })}

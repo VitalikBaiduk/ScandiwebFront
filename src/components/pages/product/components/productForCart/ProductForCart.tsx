@@ -34,17 +34,14 @@ import {
 
 interface ProductForCartProps extends ProductData {
   currency: any;
-  removeProduct: (name: string, activeAttebutes: ActiveAttebutes[]) => void;
+  removeProduct: (id: string) => void;
   getTotalPrice: (price: number, inc: boolean, decr: boolean) => void;
   updatedPrices: any;
   attributeState: ActiveAttebutes[];
   className?: string;
-  getProductCount: (
-    count: number,
-    name: string,
-    activeAttebutes: ActiveAttebutes[]
-  ) => void;
+  getProductCount: (count: number, id: string) => void;
   productCount: number;
+  id: string;
 }
 
 class ProductForCart extends Component<ProductForCartProps, any> {
@@ -66,6 +63,7 @@ class ProductForCart extends Component<ProductForCartProps, any> {
       className,
       getProductCount,
       productCount,
+      id,
     } = this.props;
 
     let quantity = productCount ? productCount : 1;
@@ -80,7 +78,7 @@ class ProductForCart extends Component<ProductForCartProps, any> {
 
     const incProduct = () => {
       this.setState({ quantity: (quantity += 1) });
-      getProductCount(quantity, name, attributeState);
+      getProductCount(quantity, id);
       getTotalPrice(currentPrice ? currentPrice.amount : 0, true, false);
     };
 
@@ -89,12 +87,11 @@ class ProductForCart extends Component<ProductForCartProps, any> {
         this.setState({
           quantity: (quantity = quantity - 1),
         });
-
-        getProductCount(quantity, name, attributeState);
+        getProductCount(quantity, id);
         getTotalPrice(currentPrice ? currentPrice.amount : 0, false, true);
       } else {
-        getProductCount(quantity, name, attributeState);
-        removeProduct(name, attributeState);
+        getProductCount(quantity, id);
+        removeProduct(id);
       }
     };
     const onImageControllButtonClick = (buttonType: string) => {

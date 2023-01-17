@@ -61,6 +61,7 @@ export interface ProductData {
   name: string;
   prices: PriceItem[];
   __typename: string;
+  id: string;
 }
 
 export interface ActiveAttebutes {

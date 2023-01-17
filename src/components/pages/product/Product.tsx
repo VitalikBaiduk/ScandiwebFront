@@ -34,6 +34,7 @@ import {
 import { ProductStateType } from "../../../state/reducers/productReducer";
 import { addProduct } from "../../../state/actions/handleProdutInCart";
 import parse from "html-react-parser";
+import { v4 as uuid } from "uuid";
 
 class Product extends Component<any, any> {
   componentDidMount(): void {
@@ -65,8 +66,7 @@ class Product extends Component<any, any> {
         };
     const { mainImage } = this.state;
     const stateCurrency = this.props.currency.currency;
-    const { productReducer, changeProductState, addProduct, cartReducer } =
-      this.props;
+    const { productReducer, changeProductState, addProduct } = this.props;
 
     const changeImageHandler = (image: string) => {
       this.setState({ mainImage: image });
@@ -90,21 +90,8 @@ class Product extends Component<any, any> {
     });
 
     const addProductToCart = () => {
-      let existingItem = false;
-      cartReducer.data.map((cartReducerItem: any) => {
-        if (
-          JSON.stringify(cartReducerItem.activeAttebutes) ===
-            JSON.stringify(currentAttributesArr) &&
-          cartReducerItem.name === name
-        ) {
-          existingItem =
-            JSON.stringify(cartReducerItem.activeAttebutes) ===
-            JSON.stringify(currentAttributesArr);
-        }
-      });
-
+      const id = uuid();
       !isInactiveElements &&
-        !existingItem &&
         addProduct(
           {
             gallery,
@@ -112,11 +99,11 @@ class Product extends Component<any, any> {
             name,
             brand,
             prices,
+            id,
           },
           currentAttributesArr
         );
     };
-    console.log(description);
 
     return (
       <Wrapper>
