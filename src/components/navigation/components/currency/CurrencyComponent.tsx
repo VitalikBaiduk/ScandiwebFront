@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getCurrencies } from "../../../../api/getCurrencies";
 import { changeCartOvelayStatus } from "../../../../state/actions/changeCartOvelayStatus";
 import { changeCurrency } from "../../../../state/actions/changeCurrency";
+import { setCurrencies } from "../../../../state/actions/setCurrencies";
 import { Currency, StyledArrowIcon, WrapperCurrency } from "../../styles";
 
 class CurrencyComponent extends Component<any, any> {
@@ -13,8 +14,12 @@ class CurrencyComponent extends Component<any, any> {
   };
 
   render(): React.ReactNode {
-    const { currency } = this.props;
+    const { currency, setCurrencies, data } = this.props;
     const { arrowActive } = this.state;
+
+    currency.currencies.length === 1 &&
+      data.currencies &&
+      setCurrencies(data.currencies);
 
     return (
       <WrapperCurrency
@@ -39,6 +44,7 @@ const mapDispatchToProps = () => {
   return {
     changeCurrency,
     changeCartOvelayStatus,
+    setCurrencies,
   };
 };
 

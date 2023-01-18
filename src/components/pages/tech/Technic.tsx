@@ -6,6 +6,8 @@ import { getTechnic } from "../../../api/getTechnic";
 import {
   ExtraCardWrapper,
   LinkCardWrapper,
+  OutOfStockText,
+  OutOfStockWrapper,
 } from "../product/components/productCard/styles";
 import { connect } from "react-redux";
 import { StyledCartIcon } from "../product/styles";
@@ -37,6 +39,11 @@ class Technic extends Component<any, {}> {
                     />
                   </LinkCardWrapper>
                   <StyledCartIcon />
+                  {!el.inStock && (
+                    <OutOfStockWrapper>
+                      <OutOfStockText>OUT OF STOCK</OutOfStockText>
+                    </OutOfStockWrapper>
+                  )}
                 </ExtraCardWrapper>
               );
             })}

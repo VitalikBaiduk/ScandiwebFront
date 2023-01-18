@@ -6,6 +6,7 @@ import {
   ActionsBlock,
   BinWrapper,
   CountOfElemInBin,
+  CurrencyComponentWrapper,
   NavigationLabels,
   Wrapper,
   WrapperNavigationLabels,
@@ -33,6 +34,7 @@ class Navigation extends Component<any, NavigationStateType> {
       data,
       changeCartOvelayStatus,
       globalStateReducer,
+      currency,
     } = this.props;
 
     const navigationData = data.categories;
@@ -62,9 +64,11 @@ class Navigation extends Component<any, NavigationStateType> {
         </WrapperNavigationLabels>
         <BrandIcon />
         <ActionsBlock>
-          <div onClick={() => this.setState({ arrowActive: !arrowActive })}>
+          <CurrencyComponentWrapper
+            onClick={() => this.setState({ arrowActive: !arrowActive })}
+          >
             <CurrencyComponent />
-          </div>
+          </CurrencyComponentWrapper>
           <BinWrapper
             onClick={() => {
               this.setState({ activeCartOverlay: !activeCartOverlay });
@@ -79,7 +83,7 @@ class Navigation extends Component<any, NavigationStateType> {
           {arrowActive && (
             <CurrencyModal
               setCurrency={setCurrency}
-              currenciesList={data.currencies}
+              currenciesList={currency.currencies ? currency.currencies : []}
             />
           )}
         </ActionsBlock>

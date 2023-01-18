@@ -63,3 +63,26 @@ export const ProductPrice = styled.span`
   line-height: 160%;
   color: #1d1f22;
 `;
+
+export const OutOfStockWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  opacity: 0.5;
+`;
+
+export const OutOfStockText = styled.p`
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 160%;
+  text-transform: uppercase;
+  color: #8d8f9a;
+`;

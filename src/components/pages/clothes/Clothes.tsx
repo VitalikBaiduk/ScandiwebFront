@@ -6,6 +6,8 @@ import ProductCard from "../product/components/productCard/ProductCard";
 import {
   ExtraCardWrapper,
   LinkCardWrapper,
+  OutOfStockText,
+  OutOfStockWrapper,
 } from "../product/components/productCard/styles";
 import { connect } from "react-redux";
 import { StyledCartIcon } from "../product/styles";
@@ -37,6 +39,11 @@ class Clothes extends Component<any, {}> {
                     />
                   </LinkCardWrapper>
                   <StyledCartIcon />
+                  {!el.inStock && (
+                    <OutOfStockWrapper>
+                      <OutOfStockText>OUT OF STOCK</OutOfStockText>
+                    </OutOfStockWrapper>
+                  )}
                 </ExtraCardWrapper>
               );
             })}

@@ -35,8 +35,6 @@ export const cartReducer = (
     | ProductCountType
     | makeOrderType
 ) => {
-  // console.log(state);
-
   switch (action.type) {
     case "ADD_PRODUCT":
       const newProduct = {

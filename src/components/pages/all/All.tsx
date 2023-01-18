@@ -6,6 +6,8 @@ import { getAllItem } from "../../../api/getAll";
 import {
   ExtraCardWrapper,
   LinkCardWrapper,
+  OutOfStockText,
+  OutOfStockWrapper,
 } from "../product/components/productCard/styles";
 import { connect } from "react-redux";
 import { DataProps } from "react-apollo";
@@ -42,6 +44,11 @@ class All extends Component<any, {}> {
                     />
                   </LinkCardWrapper>
                   <StyledCartIcon />
+                  {!el.inStock && (
+                    <OutOfStockWrapper>
+                      <OutOfStockText>OUT OF STOCK</OutOfStockText>
+                    </OutOfStockWrapper>
+                  )}
                 </ExtraCardWrapper>
               );
             })}
