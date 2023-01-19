@@ -4,7 +4,6 @@ import { DataProps } from "react-apollo";
 import { connect } from "react-redux";
 import { getCurrencies } from "../../../../api/getCurrencies";
 import { changeCartOvelayStatus } from "../../../../state/actions/changeCartOvelayStatus";
-import { changeCurrency } from "../../../../state/actions/changeCurrency";
 import { setCurrencies } from "../../../../state/actions/setCurrencies";
 import { Currency, StyledArrowIcon, WrapperCurrency } from "../../styles";
 
@@ -20,12 +19,15 @@ class CurrencyComponent extends Component<any, any> {
     currency.currencies.length === 1 &&
       data.currencies &&
       setCurrencies(data.currencies);
-
     return (
       <WrapperCurrency
         onClick={() => this.setState({ arrowActive: !arrowActive })}
       >
-        <Currency>{currency.currency}</Currency>
+        <Currency>
+          {localStorage.getItem("currency")
+            ? localStorage.getItem("currency")
+            : "$"}
+        </Currency>
         <StyledArrowIcon className={arrowActive ? "active" : ""} />
       </WrapperCurrency>
     );
@@ -42,7 +44,6 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = () => {
   return {
-    changeCurrency,
     changeCartOvelayStatus,
     setCurrencies,
   };

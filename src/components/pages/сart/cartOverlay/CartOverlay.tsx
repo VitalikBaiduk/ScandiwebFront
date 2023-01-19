@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import { changeCartOvelayStatus } from "../../../../state/actions/changeCartOvelayStatus";
 import {
-  changeFirstTotalPrice,
   increasetTotalPrice,
   reduceTotalPrice,
 } from "../../../../state/actions/changePrices";
@@ -26,32 +25,6 @@ import {
 } from "./styles";
 
 export class CartOverlay extends Component<any, any> {
-  componentDidMount(): void {
-    this.props.changeFirstTotalPrice(
-      this.props.cartReducer.data,
-      this.props.currency.currency
-    );
-  }
-  componentDidUpdate(
-    prevProps: Readonly<any>,
-    prevState: Readonly<{}>,
-    snapshot?: any
-  ): void {
-    if (prevProps.currency.currency !== this.props.currency.currency) {
-      this.props.changeFirstTotalPrice(
-        this.props.cartReducer.data,
-        this.props.currency.currency
-      );
-    } else if (
-      this.props.cartReducer.data.length !== prevProps.cartReducer.data.length
-    ) {
-      this.props.changeFirstTotalPrice(
-        this.props.cartReducer.data,
-        this.props.currency.currency
-      );
-    }
-  }
-
   render(): React.ReactNode {
     const {
       cartReducer,
@@ -63,12 +36,16 @@ export class CartOverlay extends Component<any, any> {
       changeCartOvelayStatus,
     } = this.props;
 
-    const products = cartReducer.data;
+    const products = localStorage.getItem("productArr")
+      ? JSON.parse(localStorage.getItem("productArr")!)
+      : cartReducer.data;
 
     const getTotalPrice = (price: number, inc: boolean, decr: boolean) => {
       inc && increasetTotalPrice(price);
       decr && reduceTotalPrice(price);
     };
+
+    const totalPrice = localStorage.getItem("totalPrice");
 
     return (
       <Wrapper>
@@ -102,7 +79,7 @@ export class CartOverlay extends Component<any, any> {
         </ProductWrapper>
         <TotalPriceBlock>
           <StyledText>Total:</StyledText>
-          <Price>{currency.currency + cartReducer.totalPrice}</Price>
+          <Price>{currency.currency + totalPrice}</Price>
         </TotalPriceBlock>
         <ButtonBlock>
           <ButtonText
@@ -143,7 +120,6 @@ const mapDispatchToProps = () => {
     increasetTotalPrice,
     reduceTotalPrice,
     productCount,
-    changeFirstTotalPrice,
     changeCartOvelayStatus,
   };
 };

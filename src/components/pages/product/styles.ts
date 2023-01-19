@@ -17,6 +17,8 @@ export const ImageBlock = styled.div`
 `;
 
 export const WrapperSmallImage = styled.div`
+  max-height: 510px;
+  overflow: scroll;
   display: flex;
   flex-direction: column;
 `;

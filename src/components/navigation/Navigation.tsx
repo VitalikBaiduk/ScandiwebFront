@@ -20,6 +20,7 @@ import { changeCartOvelayStatus } from "../../state/actions/changeCartOvelayStat
 import CartOverlay from "../pages/сart/cartOverlay/CartOverlay";
 import CurrencyComponent from "./components/currency/CurrencyComponent";
 import { getCategories } from "../../api/getCategories";
+import CurrencyModalContainer from "./components/currency/CurrencyModal";
 class Navigation extends Component<any, NavigationStateType> {
   state = {
     arrowActive: false,
@@ -44,7 +45,9 @@ class Navigation extends Component<any, NavigationStateType> {
       this.setState({ arrowActive: false });
     };
 
-    const products = cartReducer;
+    const products = localStorage.getItem("productArr")
+      ? JSON.parse(localStorage.getItem("productArr")!)
+      : cartReducer;
     let quantity = 0;
     products.map((el: any) =>
       el.count ? (quantity += el.count) : (quantity += 1)
@@ -76,12 +79,12 @@ class Navigation extends Component<any, NavigationStateType> {
             }}
           >
             <Bin />
-            {cartReducer.length > 0 && (
+            {products.length > 0 && (
               <CountOfElemInBin>{quantity}</CountOfElemInBin>
             )}
           </BinWrapper>
           {arrowActive && (
-            <CurrencyModal
+            <CurrencyModalContainer
               setCurrency={setCurrency}
               currenciesList={currency.currencies ? currency.currencies : []}
             />

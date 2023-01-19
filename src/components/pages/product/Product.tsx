@@ -35,6 +35,7 @@ import { ProductStateType } from "../../../state/reducers/productReducer";
 import { addProduct } from "../../../state/actions/handleProdutInCart";
 import parse from "html-react-parser";
 import { v4 as uuid } from "uuid";
+import { setTotalPrice } from "../../../state/actions/setTotalPrice";
 
 class Product extends Component<any, any> {
   componentDidMount(): void {
@@ -66,14 +67,20 @@ class Product extends Component<any, any> {
         };
     const { mainImage } = this.state;
     const stateCurrency = this.props.currency.currency;
-    const { productReducer, changeProductState, addProduct } = this.props;
+    const {
+      productReducer,
+      changeProductState,
+      addProduct,
+      cartReducer,
+      setTotalPrice,
+    } = this.props;
 
     const changeImageHandler = (image: string) => {
       this.setState({ mainImage: image });
     };
 
     const currentPrice = prices.find((el: any) => {
-      return stateCurrency === el.currency.symbol;
+      return localStorage.getItem("currency") === el.currency.symbol;
     });
 
     let currentAttributesArr: any[] = [];
@@ -103,6 +110,22 @@ class Product extends Component<any, any> {
           },
           currentAttributesArr
         );
+      localStorage.setItem(
+        "productArr",
+        JSON.stringify([
+          ...JSON.parse(localStorage.getItem("productArr")!),
+          {
+            activeAttebutes: currentAttributesArr,
+            attributes,
+            gallery,
+            name,
+            brand,
+            prices,
+            id,
+          },
+        ])
+      );
+      setTotalPrice(localStorage.getItem("currency"));
     };
 
     return (
@@ -215,6 +238,7 @@ const mapDispatchToProps = () => {
     changeProductState,
     clearProductState,
     addProduct,
+    setTotalPrice,
   };
 };
 

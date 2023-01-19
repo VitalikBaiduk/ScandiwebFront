@@ -6,7 +6,6 @@ import {
   removeProduct,
 } from "../../../state/actions/handleProdutInCart";
 import {
-  changeFirstTotalPrice,
   increasetTotalPrice,
   reduceTotalPrice,
 } from "../../../state/actions/changePrices";
@@ -30,33 +29,9 @@ import {
   TotalValue,
   Wrapper,
 } from "./styles";
+import { setTotalPrice } from "../../../state/actions/setTotalPrice";
 
 class Cart extends Component<any, {}> {
-  componentDidMount(): void {
-    this.props.changeFirstTotalPrice(
-      this.props.cartReducer.data,
-      this.props.currency.currency
-    );
-  }
-  componentDidUpdate(
-    prevProps: Readonly<any>,
-    prevState: Readonly<{}>,
-    snapshot?: any
-  ): void {
-    if (prevProps.currency.currency !== this.props.currency.currency) {
-      this.props.changeFirstTotalPrice(
-        this.props.cartReducer.data,
-        this.props.currency.currency
-      );
-    } else if (
-      this.props.cartReducer.data.length !== prevProps.cartReducer.data.length
-    ) {
-      this.props.changeFirstTotalPrice(
-        this.props.cartReducer.data,
-        this.props.currency.currency
-      );
-    }
-  }
   state = {
     order: false,
   };
@@ -72,7 +47,9 @@ class Cart extends Component<any, {}> {
       makeOrder,
     } = this.props;
 
-    const products = cartReducer.data;
+    const products = localStorage.getItem("productArr")
+      ? JSON.parse(localStorage.getItem("productArr")!)
+      : cartReducer.data;
     const stateCurrency = currency.currency;
 
     let quantity = 0;
@@ -84,6 +61,9 @@ class Cart extends Component<any, {}> {
       inc && increasetTotalPrice(price);
       decr && reduceTotalPrice(price);
     };
+
+    const totalPrice = localStorage.getItem("totalPrice");
+    const tax = localStorage.getItem("tax");
 
     return (
       <Wrapper>
@@ -126,21 +106,19 @@ class Cart extends Component<any, {}> {
           <TotalPriceBlock>
             <TotalBlockKey>
               Tax 21%:
-              <TotalBlockValue>
-                {" " + stateCurrency + cartReducer.tax.toFixed(2)}
-              </TotalBlockValue>
+              <TotalBlockValue>{" " + stateCurrency + tax}</TotalBlockValue>
             </TotalBlockKey>
             <TotalBlockKey>
               Quantity: <TotalBlockValue>{quantity}</TotalBlockValue>
             </TotalBlockKey>
             <TotalKey>
-              Total:{" "}
-              <TotalValue>{stateCurrency + cartReducer.totalPrice}</TotalValue>
+              Total: <TotalValue>{stateCurrency + totalPrice}</TotalValue>
             </TotalKey>
             <OrderButton
               onClick={() => {
                 this.setState({ order: true });
                 makeOrder();
+                localStorage.setItem("productArr", JSON.stringify([]));
               }}
             >
               ORDER
@@ -170,11 +148,11 @@ const mapStateToProps = (state: any) => {
 const mapDuspatchToProps = () => {
   return {
     removeProduct,
-    changeFirstTotalPrice,
     increasetTotalPrice,
     reduceTotalPrice,
     productCount,
     makeOrder,
+    setTotalPrice,
   };
 };
 

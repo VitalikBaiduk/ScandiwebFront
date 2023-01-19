@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { setTotalPrice } from "../../../../state/actions/setTotalPrice";
 import {
   CurrencyModalProps,
   CurrencyModalStateType,
@@ -16,7 +18,7 @@ class CurrencyModal extends Component<
   };
 
   render(): React.ReactNode {
-    const { setCurrency, currenciesList } = this.props;
+    const { setCurrency, currenciesList, setTotalPrice } = this.props;
     return (
       <Wrapper>
         {currenciesList.map((el: CurrencyItemType, index) => {
@@ -25,6 +27,8 @@ class CurrencyModal extends Component<
               key={index}
               onClick={() => {
                 setCurrency(el.symbol);
+                setTotalPrice(el.symbol);
+                localStorage.setItem("currency", el.symbol);
               }}
             >
               {el.symbol + " " + el.label}
@@ -36,4 +40,19 @@ class CurrencyModal extends Component<
   }
 }
 
-export default CurrencyModal;
+const mapStateToProps = (state: any) => {
+  return {};
+};
+
+const mapDispatchToProps = () => {
+  return {
+    setTotalPrice,
+  };
+};
+
+const CurrencyModalContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps()
+)(CurrencyModal);
+
+export default CurrencyModalContainer;

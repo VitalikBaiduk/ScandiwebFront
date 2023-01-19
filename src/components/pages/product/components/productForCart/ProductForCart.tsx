@@ -4,6 +4,7 @@ import { ProductStateType } from "../../../../../state/reducers/productReducer";
 import { ReactComponent as Arrow } from "./assets/LeftArrow.svg";
 import {
   ActiveAttebutes,
+  PriceItem,
   ProductAttributesItemsType,
   ProductAttributesType,
   ProductData,
@@ -50,7 +51,6 @@ class ProductForCart extends Component<ProductForCartProps, any> {
   };
 
   render(): React.ReactNode {
-    const stateCurrency = this.props.currency.currency;
     let { imageNumber } = this.state;
     const {
       getTotalPrice,
@@ -70,8 +70,13 @@ class ProductForCart extends Component<ProductForCartProps, any> {
 
     const setClassName = className ? className : "";
 
-    const currentPrice = this.props.prices.find((el: any) => {
-      return stateCurrency === el.currency.symbol;
+    const currentPrice = this.props.prices.find((el: PriceItem) => {
+      // if (localStorage.getItem("currency") !== null && el.currency !== null) {
+      //   // return localStorage.getItem("currency") === el.currency.symbol;
+      // }
+      // console.log(localStorage.getItem("currency")!);
+
+      return localStorage.getItem("currency") === el.currency.symbol;
     });
 
     const finalPrice = currentPrice!.amount * quantity;

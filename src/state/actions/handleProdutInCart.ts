@@ -29,7 +29,7 @@ export const productCount = (count: number, id: string) => {
   } as const;
 };
 
-export type makeOrderType = ReturnType<typeof makeOrder>;
+export type MakeOrderType = ReturnType<typeof makeOrder>;
 export const makeOrder = () => {
   return {
     type: "MAKE_ORDER",

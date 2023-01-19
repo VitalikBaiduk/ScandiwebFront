@@ -22,7 +22,7 @@ class All extends Component<any, {}> {
           products: [],
         };
 
-    const stateCurrency = this.props.currency.currency;
+    const actualCurrency = localStorage.getItem("currency");
 
     return (
       <Wrapper>
@@ -31,7 +31,7 @@ class All extends Component<any, {}> {
           {products.length &&
             products.map((el: any, index: number) => {
               const price = el.prices.find((priceItem: any) => {
-                return stateCurrency === priceItem.currency.symbol;
+                return actualCurrency === priceItem.currency.symbol;
               });
 
               return (
