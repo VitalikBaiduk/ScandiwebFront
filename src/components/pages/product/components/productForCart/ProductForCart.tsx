@@ -64,22 +64,20 @@ class ProductForCart extends Component<ProductForCartProps, any> {
       getProductCount,
       productCount,
       id,
+      prices,
     } = this.props;
 
     let quantity = productCount ? productCount : 1;
 
     const setClassName = className ? className : "";
 
-    const currentPrice = this.props.prices.find((el: PriceItem) => {
-      // if (localStorage.getItem("currency") !== null && el.currency !== null) {
-      //   // return localStorage.getItem("currency") === el.currency.symbol;
-      // }
-      // console.log(localStorage.getItem("currency")!);
-
-      return localStorage.getItem("currency") === el.currency.symbol;
+    const currentPrice = prices.find((el: any) => {
+      return (
+        el !== null && localStorage.getItem("currency") === el.currency.symbol
+      );
     });
 
-    const finalPrice = currentPrice!.amount * quantity;
+    const finalPrice = currentPrice ? currentPrice.amount * quantity : 1;
 
     const incProduct = () => {
       this.setState({ quantity: (quantity += 1) });
@@ -119,7 +117,8 @@ class ProductForCart extends Component<ProductForCartProps, any> {
           <NameOfItem className={setClassName}>{name}</NameOfItem>
           <Brand className={setClassName}>{brand}</Brand>
           <StyledPriceValue className={setClassName}>
-            {currentPrice!.currency.symbol + finalPrice.toFixed(2)}
+            {currentPrice &&
+              currentPrice.currency.symbol + finalPrice.toFixed(2)}
           </StyledPriceValue>
           {attributes.map((element: ProductAttributesType, i: number) => {
             return (
