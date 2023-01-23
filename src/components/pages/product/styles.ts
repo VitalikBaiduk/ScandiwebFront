@@ -10,7 +10,6 @@ export const Wrapper = styled.div`
 `;
 
 export const ImageBlock = styled.div`
-  position: relative;
   width: 100%;
   max-width: 700px;
   max-height: 510px;
@@ -18,8 +17,13 @@ export const ImageBlock = styled.div`
   margin-right: 100px;
 `;
 
+export const MainImageWrapper = styled.div`
+  position: relative;
+  max-width: 610px;
+  max-height: 510px;
+`;
+
 export const WrapperSmallImage = styled.div`
-  /* max-height: 510px; */
   overflow: scroll;
   display: flex;
   flex-direction: column;
@@ -36,8 +40,8 @@ export const SmallImage = styled.img`
 `;
 
 export const MainImage = styled.img`
-  max-width: 610px;
-  max-height: 510px;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: cover;
   margin-left: 30px;
 `;

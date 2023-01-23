@@ -13,6 +13,7 @@ import {
   ImageBlock,
   InfoBlock,
   MainImage,
+  MainImageWrapper,
   NameOfItem,
   PriceLabel,
   PriceValue,
@@ -152,12 +153,14 @@ class Product extends Component<any, any> {
               );
             })}
           </WrapperSmallImage>
-          <MainImage src={mainImage ? mainImage : gallery[0]} />
-          {!inStock && (
-            <OutOfStockWrapper>
-              <OutOfStockText>OUT OF STOCK</OutOfStockText>
-            </OutOfStockWrapper>
-          )}
+          <MainImageWrapper>
+            <MainImage src={mainImage ? mainImage : gallery[0]} />
+            {!inStock && (
+              <OutOfStockWrapper>
+                <OutOfStockText>OUT OF STOCK</OutOfStockText>
+              </OutOfStockWrapper>
+            )}
+          </MainImageWrapper>
         </ImageBlock>
         <InfoBlock>
           <NameOfItem>{name}</NameOfItem>
