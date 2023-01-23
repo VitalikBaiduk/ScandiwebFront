@@ -7,7 +7,7 @@ import {
 } from "../../../state/actions/handleProdutInCart";
 
 import ProductForCart from "../product/components/productForCart/ProductForCart";
-import { ProductData, ProductDataWithActiveAttr } from "../../../types/types";
+import { ProductDataWithActiveAttr } from "../../../types/types";
 import { Title } from "../../../styles/global";
 import {
   BlockForEmptyBin,

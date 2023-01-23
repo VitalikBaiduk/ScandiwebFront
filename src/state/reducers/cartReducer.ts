@@ -70,6 +70,8 @@ export const cartReducer = (
             return { ...priceItem, amount: priceItem.amount * action.count };
           });
         }
+
+        return item;
       });
 
       const newData = localStorageProductData.map((el: ProductData) => {
@@ -96,6 +98,8 @@ export const cartReducer = (
 
         tax += currentAmount.amount * 0.21;
         totalPrice += currentAmount.amount;
+
+        return el;
       });
       localStorage.setItem("totalPrice", JSON.stringify(tax + totalPrice));
       localStorage.setItem("tax", JSON.stringify(tax));

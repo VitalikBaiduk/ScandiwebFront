@@ -77,6 +77,7 @@ class ProductForCart extends Component<ProductForCartProps, any> {
           el !== null && localStorage.getItem("currency") === el.currency.symbol
         );
       }
+      return el;
     });
 
     const incProduct = () => {

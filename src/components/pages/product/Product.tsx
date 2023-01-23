@@ -96,6 +96,8 @@ class Product extends Component<any, any> {
         }
       );
       currentAttributesArr.push(item);
+
+      return attrItem;
     });
 
     const isInactiveElements = currentAttributesArr.find(
