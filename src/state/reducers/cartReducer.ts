@@ -9,10 +9,7 @@ import {
   RemoveProductType,
   MakeOrderType,
 } from "../actions/handleProdutInCart";
-import {
-  IncreasetTotalPriceType,
-  ReduceTotalPriceType,
-} from "../actions/changePrices";
+
 import { SetTotalPriceType } from "../actions/setTotalPrice";
 
 interface initialStateType {
@@ -32,14 +29,13 @@ export const cartReducer = (
   action:
     | AddProductType
     | RemoveProductType
-    | IncreasetTotalPriceType
-    | ReduceTotalPriceType
     | ProductCountType
     | MakeOrderType
     | SetTotalPriceType
 ) => {
-  const localStorageData = JSON.parse(localStorage.getItem("productArr")!);
-  const localStorageTax = localStorage.getItem("tax")!;
+  const localStorageProductData = JSON.parse(
+    localStorage.getItem("productArr")!
+  );
 
   switch (action.type) {
     case "ADD_PRODUCT":
@@ -54,12 +50,11 @@ export const cartReducer = (
       localStorage.setItem(
         "productArr",
         JSON.stringify(
-          localStorageData.filter((el: ProductData) => {
+          localStorageProductData.filter((el: ProductData) => {
             return el.id !== action.id;
           })
         )
       );
-
       return {
         ...state,
         data: state.data.filter((el: ProductDataWithActiveAttr) => {
@@ -71,72 +66,47 @@ export const cartReducer = (
         return el.id === action.id ? { ...el, count: action.count } : el;
       });
 
-      const newLocalStorageData = localStorageData.map((el: ProductData) => {
-        console.log(el);
-
-        return el.id === action.id
-          ? {
-              ...el,
-              count: action.count,
-              // prices: el.prices.map((priceItem: PriceItem) => {
-              //   return priceItem;
-              // }),
-            }
-          : el;
+      const updatedPrices = localStorageProductData.map((item: any) => {
+        const newPrices = item.firstPrices.map((priceItem: PriceItem) => {
+          return {
+            ...priceItem,
+            amount: priceItem.amount * action.count,
+          };
+        });
+        return newPrices;
       });
+
+      const newLocalStorageData = localStorageProductData.map(
+        (el: ProductData) => {
+          return el.id === action.id
+            ? {
+                ...el,
+                count: action.count,
+                prices: updatedPrices[0],
+              }
+            : el;
+        }
+      );
       localStorage.setItem("productArr", JSON.stringify(newLocalStorageData));
 
       return { ...state, data: newData };
 
     case "SET_TOTAL_PRICE":
-      const productInCart = JSON.parse(localStorage.getItem("productArr")!);
       let totalPrice = 0;
       let tax = 0;
-      productInCart.map((el: any) => {
+
+      localStorageProductData.map((el: any) => {
         const currentAmount = el.prices.find((priceItem: PriceItem) => {
           return priceItem.currency.symbol === action.currency;
         });
+
         tax += currentAmount.amount * 0.21;
         totalPrice += currentAmount.amount;
       });
-      localStorage.setItem("totalPrice", (tax + totalPrice).toFixed(2));
-      localStorage.setItem("tax", tax.toFixed(2));
+      localStorage.setItem("totalPrice", JSON.stringify(tax + totalPrice));
+      localStorage.setItem("tax", JSON.stringify(tax));
       return { ...state, totalPrice: tax + totalPrice, tax };
 
-    case "INCRASE_TOTAL_PRICE":
-      const incraseTotalPrice =
-        +localStorage.getItem("totalPrice")! + action.price;
-      const incraseTax = action.price * 0.21;
-
-      localStorage.setItem(
-        "totalPrice",
-        (incraseTotalPrice + incraseTax).toFixed(2)
-      );
-
-      localStorage.setItem("tax", (+localStorageTax + incraseTax).toFixed(2));
-
-      return {
-        ...state,
-        totalPrice: (incraseTotalPrice + incraseTax).toFixed(2),
-        tax: state.tax + incraseTax,
-      };
-    case "REDUCE_TOTAL_PRICE":
-      const reduceTotalPrice =
-        +localStorage.getItem("totalPrice")! - action.price;
-      const reduceTax = action.price * 0.21;
-
-      localStorage.setItem(
-        "totalPrice",
-        (reduceTotalPrice - reduceTax).toFixed(2)
-      );
-
-      localStorage.setItem("tax", (+localStorageTax - reduceTax).toFixed(2));
-
-      return {
-        ...state,
-        totalPrice: (reduceTotalPrice - reduceTax).toFixed(2),
-        tax: state.tax - reduceTax,
-      };
     case "MAKE_ORDER":
       return { ...state, data: [], totalPrice: 0, tax: 0 };
     default:

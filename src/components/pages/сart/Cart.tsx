@@ -5,10 +5,7 @@ import {
   productCount,
   removeProduct,
 } from "../../../state/actions/handleProdutInCart";
-import {
-  increasetTotalPrice,
-  reduceTotalPrice,
-} from "../../../state/actions/changePrices";
+
 import ProductForCart from "../product/components/productForCart/ProductForCart";
 import { ProductDataWithActiveAttr } from "../../../types/types";
 import { Title } from "../../../styles/global";
@@ -40,11 +37,10 @@ class Cart extends Component<any, {}> {
     const {
       cartReducer,
       currency,
-      increasetTotalPrice,
-      reduceTotalPrice,
       removeProduct,
       productCount,
       makeOrder,
+      setTotalPrice,
     } = this.props;
 
     const products = localStorage.getItem("productArr")
@@ -56,11 +52,6 @@ class Cart extends Component<any, {}> {
     products.map((el: any) =>
       el.count ? (quantity += el.count) : (quantity += 1)
     );
-
-    const getTotalPrice = (price: number, inc: boolean, decr: boolean) => {
-      inc && increasetTotalPrice(price);
-      decr && reduceTotalPrice(price);
-    };
 
     const totalPrice = localStorage.getItem("totalPrice");
     const tax = localStorage.getItem("tax");
@@ -82,12 +73,12 @@ class Cart extends Component<any, {}> {
                   __typename={el.__typename}
                   currency={currency}
                   removeProduct={removeProduct}
-                  getTotalPrice={getTotalPrice}
                   updatedPrices={cartReducer.updatedPrices}
                   attributeState={el.activeAttebutes}
                   getProductCount={productCount}
                   productCount={el.count}
                   id={el.id}
+                  setTotalPrice={setTotalPrice}
                 />
               </ProductWrapper>
             );
@@ -148,8 +139,6 @@ const mapStateToProps = (state: any) => {
 const mapDuspatchToProps = () => {
   return {
     removeProduct,
-    increasetTotalPrice,
-    reduceTotalPrice,
     productCount,
     makeOrder,
     setTotalPrice,

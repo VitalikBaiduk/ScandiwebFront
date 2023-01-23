@@ -3,13 +3,10 @@ import { connect } from "react-redux";
 
 import { changeCartOvelayStatus } from "../../../../state/actions/changeCartOvelayStatus";
 import {
-  increasetTotalPrice,
-  reduceTotalPrice,
-} from "../../../../state/actions/changePrices";
-import {
   productCount,
   removeProduct,
 } from "../../../../state/actions/handleProdutInCart";
+import { setTotalPrice } from "../../../../state/actions/setTotalPrice";
 import { ProductDataWithActiveAttr } from "../../../../types/types";
 import ProductForCart from "../../product/components/productForCart/ProductForCart";
 import {
@@ -31,26 +28,28 @@ export class CartOverlay extends Component<any, any> {
       currency,
       removeProduct,
       productCount,
-      increasetTotalPrice,
-      reduceTotalPrice,
       changeCartOvelayStatus,
+      setTotalPrice,
     } = this.props;
 
     const products = localStorage.getItem("productArr")
       ? JSON.parse(localStorage.getItem("productArr")!)
       : cartReducer.data;
 
-    const getTotalPrice = (price: number, inc: boolean, decr: boolean) => {
-      inc && increasetTotalPrice(price);
-      decr && reduceTotalPrice(price);
-    };
-
     const totalPrice = localStorage.getItem("totalPrice");
+
+    let quantity = 0;
+    products.map((el: any) =>
+      el.count ? (quantity += el.count) : (quantity += 1)
+    );
 
     return (
       <Wrapper>
         <Title>
-          My Bag, <ProductCount>{products.length} items</ProductCount>
+          My Bag,{" "}
+          <ProductCount>
+            {quantity} {quantity > 1 ? "items" : "item"}
+          </ProductCount>
         </Title>
         <ProductWrapper>
           {products.length !== 0 &&
@@ -66,13 +65,13 @@ export class CartOverlay extends Component<any, any> {
                   __typename={el.__typename}
                   currency={currency}
                   removeProduct={removeProduct}
-                  getTotalPrice={getTotalPrice}
                   updatedPrices={cartReducer.updatedPrices}
                   attributeState={el.activeAttebutes}
                   className={"overlay"}
                   getProductCount={productCount}
                   productCount={el.count}
                   id={el.id}
+                  setTotalPrice={setTotalPrice}
                 />
               );
             })}
@@ -117,10 +116,9 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = () => {
   return {
     removeProduct,
-    increasetTotalPrice,
-    reduceTotalPrice,
     productCount,
     changeCartOvelayStatus,
+    setTotalPrice,
   };
 };
 

@@ -66,14 +66,8 @@ class Product extends Component<any, any> {
           description: "",
         };
     const { mainImage } = this.state;
-    const stateCurrency = this.props.currency.currency;
-    const {
-      productReducer,
-      changeProductState,
-      addProduct,
-      cartReducer,
-      setTotalPrice,
-    } = this.props;
+    const { productReducer, changeProductState, addProduct, setTotalPrice } =
+      this.props;
 
     const changeImageHandler = (image: string) => {
       this.setState({ mainImage: image });
@@ -122,6 +116,7 @@ class Product extends Component<any, any> {
             brand,
             prices,
             id,
+            firstPrices: prices,
           },
         ])
       );
