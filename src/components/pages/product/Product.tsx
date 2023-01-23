@@ -40,6 +40,7 @@ import {
   OutOfStockText,
   OutOfStockWrapper,
 } from "./components/productCard/styles";
+import { getCorrectPrice } from "../../../utils/priceHandler";
 
 class Product extends Component<any, any> {
   componentDidMount(): void {
@@ -219,7 +220,8 @@ class Product extends Component<any, any> {
           <PriceLabel>PRICE:</PriceLabel>
           <PriceValue>
             {currentPrice
-              ? currentPrice.currency.symbol + currentPrice.amount
+              ? currentPrice.currency.symbol +
+                getCorrectPrice(currentPrice.amount)
               : ""}
           </PriceValue>
           <AddToCartButton

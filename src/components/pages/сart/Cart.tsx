@@ -27,7 +27,7 @@ import {
   Wrapper,
 } from "./styles";
 import { setTotalPrice } from "../../../state/actions/setTotalPrice";
-import { getCorrectPrice } from "../../../utils/PriceFunc";
+import { getCorrectPrice } from "../../../utils/priceHandler";
 
 class Cart extends Component<any, {}> {
   state = {

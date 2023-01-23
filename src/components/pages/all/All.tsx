@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux";
 import { DataProps } from "react-apollo";
 import { StyledCartIcon } from "../product/styles";
+import { getCorrectPrice } from "../../../utils/priceHandler";
 
 class All extends Component<any, {}> {
   render(): React.ReactNode {
@@ -40,7 +41,9 @@ class All extends Component<any, {}> {
                     <ProductCard
                       imageUrl={el.gallery[0] ? el.gallery[0] : ""}
                       name={el.name}
-                      price={price.currency.symbol + price.amount}
+                      price={
+                        price.currency.symbol + getCorrectPrice(price.amount)
+                      }
                     />
                     {!el.inStock && (
                       <OutOfStockWrapper>

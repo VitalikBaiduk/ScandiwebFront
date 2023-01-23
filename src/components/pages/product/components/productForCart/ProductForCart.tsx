@@ -31,7 +31,7 @@ import {
   VerticalLineForPlus,
   Wrapper,
 } from "./styles/styles";
-import { getCorrectPrice } from "../../../../../utils/PriceFunc";
+import { getCorrectPrice } from "../../../../../utils/priceHandler";
 
 interface ProductForCartProps extends ProductData {
   currency: any;
