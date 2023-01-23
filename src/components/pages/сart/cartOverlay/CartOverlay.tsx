@@ -36,7 +36,7 @@ export class CartOverlay extends Component<any, any> {
       ? JSON.parse(localStorage.getItem("productArr")!)
       : cartReducer.data;
 
-    const totalPrice = localStorage.getItem("totalPrice");
+    const totalPrice = JSON.parse(localStorage.getItem("totalPrice")!);
 
     let quantity = 0;
     products.map((el: any) =>
@@ -78,7 +78,7 @@ export class CartOverlay extends Component<any, any> {
         </ProductWrapper>
         <TotalPriceBlock>
           <StyledText>Total:</StyledText>
-          <Price>{currency.currency + totalPrice}</Price>
+          <Price>{currency.currency + totalPrice.toFixed(2)}</Price>
         </TotalPriceBlock>
         <ButtonBlock>
           <ButtonText

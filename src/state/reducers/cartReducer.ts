@@ -62,32 +62,26 @@ export const cartReducer = (
         }),
       };
     case "PRODUCT_COUNT":
-      const newData = state.data.map((el) => {
-        return el.id === action.id ? { ...el, count: action.count } : el;
-      });
+      let updatedPrices: Array<PriceItem> = [];
 
-      const updatedPrices = localStorageProductData.map((item: any) => {
-        const newPrices = item.firstPrices.map((priceItem: PriceItem) => {
-          return {
-            ...priceItem,
-            amount: priceItem.amount * action.count,
-          };
-        });
-        return newPrices;
-      });
-
-      const newLocalStorageData = localStorageProductData.map(
-        (el: ProductData) => {
-          return el.id === action.id
-            ? {
-                ...el,
-                count: action.count,
-                prices: updatedPrices[0],
-              }
-            : el;
+      localStorageProductData.map((item: any) => {
+        if (item.id === action.id) {
+          updatedPrices = item.firstPrices.map((priceItem: PriceItem) => {
+            return { ...priceItem, amount: priceItem.amount * action.count };
+          });
         }
-      );
-      localStorage.setItem("productArr", JSON.stringify(newLocalStorageData));
+      });
+
+      const newData = localStorageProductData.map((el: ProductData) => {
+        return el.id === action.id
+          ? {
+              ...el,
+              count: action.count,
+              prices: updatedPrices,
+            }
+          : el;
+      });
+      localStorage.setItem("productArr", JSON.stringify(newData));
 
       return { ...state, data: newData };
 
@@ -105,9 +99,11 @@ export const cartReducer = (
       });
       localStorage.setItem("totalPrice", JSON.stringify(tax + totalPrice));
       localStorage.setItem("tax", JSON.stringify(tax));
-      return { ...state, totalPrice: tax + totalPrice, tax };
 
+      return { ...state, totalPrice: tax + totalPrice, tax };
     case "MAKE_ORDER":
+      localStorage.setItem("totalPrice", JSON.stringify(0));
+      localStorage.setItem("tax", JSON.stringify(0));
       return { ...state, data: [], totalPrice: 0, tax: 0 };
     default:
       return state;

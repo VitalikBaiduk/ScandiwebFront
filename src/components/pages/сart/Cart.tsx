@@ -27,6 +27,7 @@ import {
   Wrapper,
 } from "./styles";
 import { setTotalPrice } from "../../../state/actions/setTotalPrice";
+import { getCorrectPrice } from "../../../utils/PriceFunc";
 
 class Cart extends Component<any, {}> {
   state = {
@@ -97,13 +98,18 @@ class Cart extends Component<any, {}> {
           <TotalPriceBlock>
             <TotalBlockKey>
               Tax 21%:
-              <TotalBlockValue>{" " + stateCurrency + tax}</TotalBlockValue>
+              <TotalBlockValue>
+                {tax && " " + stateCurrency + getCorrectPrice(+tax)}
+              </TotalBlockValue>
             </TotalBlockKey>
             <TotalBlockKey>
               Quantity: <TotalBlockValue>{quantity}</TotalBlockValue>
             </TotalBlockKey>
             <TotalKey>
-              Total: <TotalValue>{stateCurrency + totalPrice}</TotalValue>
+              Total:{" "}
+              <TotalValue>
+                {totalPrice && stateCurrency + getCorrectPrice(+totalPrice)}
+              </TotalValue>
             </TotalKey>
             <OrderButton
               onClick={() => {

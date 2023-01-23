@@ -31,6 +31,7 @@ import {
   VerticalLineForPlus,
   Wrapper,
 } from "./styles/styles";
+import { getCorrectPrice } from "../../../../../utils/PriceFunc";
 
 interface ProductForCartProps extends ProductData {
   currency: any;
@@ -70,6 +71,7 @@ class ProductForCart extends Component<ProductForCartProps, any> {
     let quantity = productCount ? productCount : 1;
 
     const setClassName = className ? className : "";
+
     const currentPrice = prices.find((el: any) => {
       if (el) {
         return (
@@ -118,7 +120,8 @@ class ProductForCart extends Component<ProductForCartProps, any> {
           <Brand className={setClassName}>{brand}</Brand>
           <StyledPriceValue className={setClassName}>
             {currentPrice &&
-              currentPrice.currency.symbol + currentPrice.amount.toFixed(2)}
+              currentPrice.currency.symbol +
+                getCorrectPrice(currentPrice.amount)}
           </StyledPriceValue>
           {attributes.map((element: ProductAttributesType, i: number) => {
             return (

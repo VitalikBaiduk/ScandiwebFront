@@ -42,13 +42,13 @@ class All extends Component<any, {}> {
                       name={el.name}
                       price={price.currency.symbol + price.amount}
                     />
+                    {!el.inStock && (
+                      <OutOfStockWrapper>
+                        <OutOfStockText>OUT OF STOCK</OutOfStockText>
+                      </OutOfStockWrapper>
+                    )}
                   </LinkCardWrapper>
                   <StyledCartIcon />
-                  {!el.inStock && (
-                    <OutOfStockWrapper>
-                      <OutOfStockText>OUT OF STOCK</OutOfStockText>
-                    </OutOfStockWrapper>
-                  )}
                 </ExtraCardWrapper>
               );
             })}

@@ -48,6 +48,7 @@ class Navigation extends Component<any, NavigationStateType> {
     const products = localStorage.getItem("productArr")
       ? JSON.parse(localStorage.getItem("productArr")!)
       : cartReducer;
+
     let quantity = 0;
     products.map((el: any) =>
       el.count ? (quantity += el.count) : (quantity += 1)
@@ -79,9 +80,7 @@ class Navigation extends Component<any, NavigationStateType> {
             }}
           >
             <Bin />
-            {products.length > 0 && (
-              <CountOfElemInBin>{quantity}</CountOfElemInBin>
-            )}
+            {quantity > 0 && <CountOfElemInBin>{quantity}</CountOfElemInBin>}
           </BinWrapper>
           {arrowActive && (
             <CurrencyModalContainer

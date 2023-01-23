@@ -36,6 +36,10 @@ import { addProduct } from "../../../state/actions/handleProdutInCart";
 import parse from "html-react-parser";
 import { v4 as uuid } from "uuid";
 import { setTotalPrice } from "../../../state/actions/setTotalPrice";
+import {
+  OutOfStockText,
+  OutOfStockWrapper,
+} from "./components/productCard/styles";
 
 class Product extends Component<any, any> {
   componentDidMount(): void {
@@ -47,24 +51,26 @@ class Product extends Component<any, any> {
   };
 
   render(): React.ReactNode {
-    const { gallery, attributes, name, brand, prices, description } = this.props
-      .data.product
-      ? this.props.data.product
-      : {
-          gallery: [],
-          attributes: [
-            {
-              id: "",
-              name: "",
-              type: "",
-              items: [{ displayValue: "", value: "", id: "" }],
-            },
-          ],
-          name: "",
-          brand: "",
-          prices: [{ currency: { label: "", symbol: "" }, amount: "" }],
-          description: "",
-        };
+    const { gallery, attributes, name, brand, prices, description, inStock } =
+      this.props.data.product
+        ? this.props.data.product
+        : {
+            gallery: [],
+            inStock: false,
+            attributes: [
+              {
+                id: "",
+                name: "",
+                type: "",
+                items: [{ displayValue: "", value: "", id: "" }],
+              },
+            ],
+            name: "",
+            brand: "",
+            prices: [{ currency: { label: "", symbol: "" }, amount: "" }],
+            description: "",
+          };
+
     const { mainImage } = this.state;
     const { productReducer, changeProductState, addProduct, setTotalPrice } =
       this.props;
@@ -87,12 +93,16 @@ class Product extends Component<any, any> {
     });
 
     const isInactiveElements = currentAttributesArr.find((el: any) => {
-      return el ? el.activeElement === null : "";
+      if (el) {
+        return el.activeElement === null;
+      }
+      return el;
     });
 
     const addProductToCart = () => {
       const id = uuid();
       !isInactiveElements &&
+        inStock &&
         addProduct(
           {
             gallery,
@@ -104,22 +114,24 @@ class Product extends Component<any, any> {
           },
           currentAttributesArr
         );
-      localStorage.setItem(
-        "productArr",
-        JSON.stringify([
-          ...JSON.parse(localStorage.getItem("productArr")!),
-          {
-            activeAttebutes: currentAttributesArr,
-            attributes,
-            gallery,
-            name,
-            brand,
-            prices,
-            id,
-            firstPrices: prices,
-          },
-        ])
-      );
+      !isInactiveElements &&
+        inStock &&
+        localStorage.setItem(
+          "productArr",
+          JSON.stringify([
+            ...JSON.parse(localStorage.getItem("productArr")!),
+            {
+              activeAttebutes: currentAttributesArr,
+              attributes,
+              gallery,
+              name,
+              brand,
+              prices,
+              id,
+              firstPrices: prices,
+            },
+          ])
+        );
       setTotalPrice(localStorage.getItem("currency"));
     };
 
@@ -140,6 +152,11 @@ class Product extends Component<any, any> {
             })}
           </WrapperSmallImage>
           <MainImage src={mainImage ? mainImage : gallery[0]} />
+          {!inStock && (
+            <OutOfStockWrapper>
+              <OutOfStockText>OUT OF STOCK</OutOfStockText>
+            </OutOfStockWrapper>
+          )}
         </ImageBlock>
         <InfoBlock>
           <NameOfItem>{name}</NameOfItem>
@@ -206,7 +223,7 @@ class Product extends Component<any, any> {
               : ""}
           </PriceValue>
           <AddToCartButton
-            className={isInactiveElements ? "disable" : ""}
+            className={inStock && !isInactiveElements ? "" : "disable"}
             onClick={addProductToCart}
           >
             ADD TO CART
