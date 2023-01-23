@@ -24,6 +24,8 @@ import {
   WrapperSmallImage,
 } from "./styles";
 import {
+  ActiveAttrebutes,
+  PriceItem,
   ProductAttributesItemsType,
   ProductAttributesType,
 } from "../../../types/types";
@@ -81,25 +83,29 @@ class Product extends Component<any, any> {
       this.setState({ mainImage: image });
     };
 
-    const currentPrice = prices.find((el: any) => {
-      return localStorage.getItem("currency") === el.currency.symbol;
-    });
+    const currentPrice = prices.find(
+      (el: PriceItem) => localStorage.getItem("currency") === el.currency.symbol
+    );
 
-    let currentAttributesArr: any[] = [];
+    let currentAttributesArr: ActiveAttrebutes[] = [];
 
     attributes.map((attrItem: ProductAttributesType) => {
-      let [item] = productReducer.attributesState.filter((el: any) => {
-        return el.name === attrItem.name;
-      });
+      let [item] = productReducer.attributesState.filter(
+        (el: { activeElement: number | null; name: string }) => {
+          return el.name === attrItem.name;
+        }
+      );
       currentAttributesArr.push(item);
     });
 
-    const isInactiveElements = currentAttributesArr.find((el: any) => {
-      if (el) {
-        return el.activeElement === null;
+    const isInactiveElements = currentAttributesArr.find(
+      (el: ActiveAttrebutes) => {
+        if (el) {
+          return el.activeElement === null;
+        }
+        return el;
       }
-      return el;
-    });
+    );
 
     const addProductToCart = () => {
       const id = uuid();

@@ -4,6 +4,7 @@ import { ProductStateType } from "../../../../../state/reducers/productReducer";
 import { ReactComponent as Arrow } from "./assets/LeftArrow.svg";
 import {
   ActiveAttebutes,
+  PriceItem,
   ProductAttributesItemsType,
   ProductAttributesType,
   ProductData,
@@ -34,9 +35,7 @@ import {
 import { getCorrectPrice } from "../../../../../utils/priceHandler";
 
 interface ProductForCartProps extends ProductData {
-  currency: any;
   removeProduct: (id: string) => void;
-  updatedPrices: any;
   attributeState: ActiveAttebutes[];
   className?: string;
   getProductCount: (count: number, id: string) => void;
@@ -72,7 +71,7 @@ class ProductForCart extends Component<ProductForCartProps, any> {
 
     const setClassName = className ? className : "";
 
-    const currentPrice = prices.find((el: any) => {
+    const currentPrice = prices.find((el: PriceItem) => {
       if (el) {
         return (
           el !== null && localStorage.getItem("currency") === el.currency.symbol

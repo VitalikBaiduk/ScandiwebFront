@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import { DataProps } from "react-apollo";
 import { StyledCartIcon } from "../product/styles";
 import { getCorrectPrice } from "../../../utils/priceHandler";
+import { PriceItem } from "../../../types/types";
 
 class All extends Component<any, {}> {
   render(): React.ReactNode {
@@ -30,10 +31,11 @@ class All extends Component<any, {}> {
         <Title>{name}</Title>
         <ProductCardWrapper>
           {products.length &&
-            products.map((el: any, index: number) => {
-              const price = el.prices.find((priceItem: any) => {
-                return actualCurrency === priceItem.currency.symbol;
-              });
+            products.map((el: any) => {
+              const price = el.prices.find(
+                (priceItem: PriceItem) =>
+                  actualCurrency === priceItem.currency.symbol
+              );
 
               return (
                 <ExtraCardWrapper key={el.id}>

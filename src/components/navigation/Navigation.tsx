@@ -1,7 +1,6 @@
 import React, { Component, ComponentType } from "react";
 import { ReactComponent as BrandIcon } from "../../assets/BrandIcon.svg";
 import { ReactComponent as Bin } from "../../assets/Bin.svg";
-import CurrencyModal from "./components/currency/CurrencyModal";
 import {
   ActionsBlock,
   BinWrapper,
@@ -11,7 +10,11 @@ import {
   Wrapper,
   WrapperNavigationLabels,
 } from "./styles";
-import { NavigationStateType } from "../../types/types";
+import {
+  NavigationStateType,
+  NavigationType,
+  ProductDataWithActiveAttr,
+} from "../../types/types";
 import { changeCurrency } from "../../state/actions/changeCurrency";
 import { connect } from "react-redux";
 import { graphql, MutateProps } from "@apollo/client/react/hoc";
@@ -50,7 +53,8 @@ class Navigation extends Component<any, NavigationStateType> {
       : cartReducer;
 
     let quantity = 0;
-    products.map((el: any) =>
+
+    products.map((el: ProductDataWithActiveAttr) =>
       el.count ? (quantity += el.count) : (quantity += 1)
     );
 
@@ -58,7 +62,7 @@ class Navigation extends Component<any, NavigationStateType> {
       <Wrapper>
         <WrapperNavigationLabels>
           {navigationData &&
-            navigationData.map((el: any, index: number) => {
+            navigationData.map((el: NavigationType, index: number) => {
               return (
                 <NavigationLabels to={el.name} key={index}>
                   {el.name}

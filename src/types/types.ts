@@ -53,6 +53,7 @@ export interface WithRouterProps {
 export interface PriceItem {
   amount: number;
   currency: CurrencyItemType;
+  __typename: string;
 }
 
 export interface ProductData {
@@ -73,4 +74,14 @@ export interface ActiveAttebutes {
 export interface ProductDataWithActiveAttr extends ProductData {
   activeAttebutes: ActiveAttebutes[];
   count: number;
+}
+
+export interface NavigationType {
+  name: string;
+  __typename: string;
+}
+
+export interface ActiveAttrebutes {
+  activeElement: string;
+  name: string;
 }

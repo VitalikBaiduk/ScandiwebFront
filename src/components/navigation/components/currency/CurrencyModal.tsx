@@ -40,10 +40,6 @@ class CurrencyModal extends Component<
   }
 }
 
-const mapStateToProps = (state: any) => {
-  return {};
-};
-
 const mapDispatchToProps = () => {
   return {
     setTotalPrice,
@@ -51,7 +47,7 @@ const mapDispatchToProps = () => {
 };
 
 const CurrencyModalContainer = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps()
 )(CurrencyModal);
 

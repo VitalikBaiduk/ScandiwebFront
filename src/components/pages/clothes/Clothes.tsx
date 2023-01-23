@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux";
 import { StyledCartIcon } from "../product/styles";
 import { getCorrectPrice } from "../../../utils/priceHandler";
+import { PriceItem } from "../../../types/types";
 
 class Clothes extends Component<any, {}> {
   render(): React.ReactNode {
@@ -27,7 +28,7 @@ class Clothes extends Component<any, {}> {
         <ProductCardWrapper>
           {products.length &&
             products.map((el: any) => {
-              const price = el.prices.find((priceItem: any) => {
+              const price = el.prices.find((priceItem: PriceItem) => {
                 return stateCurrency === priceItem.currency.symbol;
               });
               return (

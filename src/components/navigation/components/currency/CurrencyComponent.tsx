@@ -7,7 +7,14 @@ import { changeCartOvelayStatus } from "../../../../state/actions/changeCartOvel
 import { setCurrencies } from "../../../../state/actions/setCurrencies";
 import { Currency, StyledArrowIcon, WrapperCurrency } from "../../styles";
 
-class CurrencyComponent extends Component<any, any> {
+interface CurrencyComponentLocalStateType {
+  arrowActive: boolean;
+}
+
+class CurrencyComponent extends Component<
+  any,
+  CurrencyComponentLocalStateType
+> {
   state = {
     arrowActive: false,
   };

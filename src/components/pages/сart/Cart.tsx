@@ -7,7 +7,7 @@ import {
 } from "../../../state/actions/handleProdutInCart";
 
 import ProductForCart from "../product/components/productForCart/ProductForCart";
-import { ProductDataWithActiveAttr } from "../../../types/types";
+import { ProductData, ProductDataWithActiveAttr } from "../../../types/types";
 import { Title } from "../../../styles/global";
 import {
   BlockForEmptyBin,
@@ -50,7 +50,8 @@ class Cart extends Component<any, {}> {
     const stateCurrency = currency.currency;
 
     let quantity = 0;
-    products.map((el: any) =>
+
+    products.map((el: ProductDataWithActiveAttr) =>
       el.count ? (quantity += el.count) : (quantity += 1)
     );
 
@@ -72,9 +73,7 @@ class Cart extends Component<any, {}> {
                   name={el.name}
                   prices={el.prices}
                   __typename={el.__typename}
-                  currency={currency}
                   removeProduct={removeProduct}
-                  updatedPrices={cartReducer.updatedPrices}
                   attributeState={el.activeAttebutes}
                   getProductCount={productCount}
                   productCount={el.count}

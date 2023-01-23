@@ -39,7 +39,8 @@ export class CartOverlay extends Component<any, any> {
     const totalPrice = JSON.parse(localStorage.getItem("totalPrice")!);
 
     let quantity = 0;
-    products.map((el: any) =>
+
+    products.map((el: ProductDataWithActiveAttr) =>
       el.count ? (quantity += el.count) : (quantity += 1)
     );
 
@@ -63,9 +64,7 @@ export class CartOverlay extends Component<any, any> {
                   name={el.name}
                   prices={el.prices}
                   __typename={el.__typename}
-                  currency={currency}
                   removeProduct={removeProduct}
-                  updatedPrices={cartReducer.updatedPrices}
                   attributeState={el.activeAttebutes}
                   className={"overlay"}
                   getProductCount={productCount}
