@@ -28,6 +28,7 @@ export const Title = styled.h1`
   line-height: 160%;
   color: #1d1f22;
   margin-bottom: 50px;
+  text-transform: uppercase;
 `;
 
 export const ProductCardWrapper = styled.div`

@@ -6,6 +6,8 @@ import { getAllItem } from "../../../api/getAll";
 import {
   ExtraCardWrapper,
   LinkCardWrapper,
+  OutOfStockText,
+  OutOfStockWrapper,
 } from "../product/components/productCard/styles";
 import { connect } from "react-redux";
 import { DataProps } from "react-apollo";
@@ -13,22 +15,23 @@ import { StyledCartIcon } from "../product/styles";
 
 class All extends Component<any, {}> {
   render(): React.ReactNode {
-    const { products } = this.props.data.category
+    const { products, name } = this.props.data.category
       ? this.props.data.category
       : {
+          name: "",
           products: [],
         };
 
-    const stateCurrency = this.props.currency.currency;
+    const actualCurrency = localStorage.getItem("currency");
 
     return (
       <Wrapper>
-        <Title>All</Title>
+        <Title>{name}</Title>
         <ProductCardWrapper>
           {products.length &&
             products.map((el: any, index: number) => {
               const price = el.prices.find((priceItem: any) => {
-                return stateCurrency === priceItem.currency.symbol;
+                return actualCurrency === priceItem.currency.symbol;
               });
 
               return (
@@ -39,6 +42,11 @@ class All extends Component<any, {}> {
                       name={el.name}
                       price={price.currency.symbol + price.amount}
                     />
+                    {!el.inStock && (
+                      <OutOfStockWrapper>
+                        <OutOfStockText>OUT OF STOCK</OutOfStockText>
+                      </OutOfStockWrapper>
+                    )}
                   </LinkCardWrapper>
                   <StyledCartIcon />
                 </ExtraCardWrapper>

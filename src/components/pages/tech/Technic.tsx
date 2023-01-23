@@ -6,21 +6,23 @@ import { getTechnic } from "../../../api/getTechnic";
 import {
   ExtraCardWrapper,
   LinkCardWrapper,
+  OutOfStockText,
+  OutOfStockWrapper,
 } from "../product/components/productCard/styles";
 import { connect } from "react-redux";
 import { StyledCartIcon } from "../product/styles";
 
 class Technic extends Component<any, {}> {
   render(): React.ReactNode {
-    const { products } = this.props.data.category
+    const { products, name } = this.props.data.category
       ? this.props.data.category
-      : { products: [] };
+      : { name: "", products: [] };
 
     const stateCurrency = this.props.currency.currency;
 
     return (
       <Wrapper>
-        <Title>Technic</Title>
+        <Title>{name}</Title>
         <ProductCardWrapper>
           {products.length &&
             products.map((el: any) => {
@@ -35,6 +37,11 @@ class Technic extends Component<any, {}> {
                       name={el.name}
                       price={price.currency.symbol + price.amount}
                     />
+                    {!el.inStock && (
+                      <OutOfStockWrapper>
+                        <OutOfStockText>OUT OF STOCK</OutOfStockText>
+                      </OutOfStockWrapper>
+                    )}
                   </LinkCardWrapper>
                   <StyledCartIcon />
                 </ExtraCardWrapper>

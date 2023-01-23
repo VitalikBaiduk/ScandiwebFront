@@ -13,32 +13,23 @@ export const addProduct = (
 };
 
 export type RemoveProductType = ReturnType<typeof removeProduct>;
-export const removeProduct = (
-  name: string,
-  activeAttebutes: ActiveAttebutes[]
-) => {
+export const removeProduct = (id: string) => {
   return {
     type: "REMOVE_PRODUCT",
-    name,
-    activeAttebutes,
+    id,
   } as const;
 };
 
 export type ProductCountType = ReturnType<typeof productCount>;
-export const productCount = (
-  count: number,
-  name: string,
-  activeAttebutes: ActiveAttebutes[]
-) => {
+export const productCount = (count: number, id: string) => {
   return {
     type: "PRODUCT_COUNT",
     count,
-    name,
-    activeAttebutes,
+    id,
   } as const;
 };
 
-export type makeOrderType = ReturnType<typeof makeOrder>;
+export type MakeOrderType = ReturnType<typeof makeOrder>;
 export const makeOrder = () => {
   return {
     type: "MAKE_ORDER",

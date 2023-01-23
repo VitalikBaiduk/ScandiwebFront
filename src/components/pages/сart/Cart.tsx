@@ -5,11 +5,7 @@ import {
   productCount,
   removeProduct,
 } from "../../../state/actions/handleProdutInCart";
-import {
-  changeFirstTotalPrice,
-  increasetTotalPrice,
-  reduceTotalPrice,
-} from "../../../state/actions/changePrices";
+
 import ProductForCart from "../product/components/productForCart/ProductForCart";
 import { ProductDataWithActiveAttr } from "../../../types/types";
 import { Title } from "../../../styles/global";
@@ -30,33 +26,10 @@ import {
   TotalValue,
   Wrapper,
 } from "./styles";
+import { setTotalPrice } from "../../../state/actions/setTotalPrice";
+import { getCorrectPrice } from "../../../utils/PriceFunc";
 
 class Cart extends Component<any, {}> {
-  componentDidMount(): void {
-    this.props.changeFirstTotalPrice(
-      this.props.cartReducer.data,
-      this.props.currency.currency
-    );
-  }
-  componentDidUpdate(
-    prevProps: Readonly<any>,
-    prevState: Readonly<{}>,
-    snapshot?: any
-  ): void {
-    if (prevProps.currency.currency !== this.props.currency.currency) {
-      this.props.changeFirstTotalPrice(
-        this.props.cartReducer.data,
-        this.props.currency.currency
-      );
-    } else if (
-      this.props.cartReducer.data.length !== prevProps.cartReducer.data.length
-    ) {
-      this.props.changeFirstTotalPrice(
-        this.props.cartReducer.data,
-        this.props.currency.currency
-      );
-    }
-  }
   state = {
     order: false,
   };
@@ -65,20 +38,24 @@ class Cart extends Component<any, {}> {
     const {
       cartReducer,
       currency,
-      increasetTotalPrice,
-      reduceTotalPrice,
       removeProduct,
       productCount,
       makeOrder,
+      setTotalPrice,
     } = this.props;
 
-    const products = cartReducer.data;
+    const products = localStorage.getItem("productArr")
+      ? JSON.parse(localStorage.getItem("productArr")!)
+      : cartReducer.data;
     const stateCurrency = currency.currency;
 
-    const getTotalPrice = (price: number, inc: boolean, decr: boolean) => {
-      inc && increasetTotalPrice(price);
-      decr && reduceTotalPrice(price);
-    };
+    let quantity = 0;
+    products.map((el: any) =>
+      el.count ? (quantity += el.count) : (quantity += 1)
+    );
+
+    const totalPrice = localStorage.getItem("totalPrice");
+    const tax = localStorage.getItem("tax");
 
     return (
       <Wrapper>
@@ -97,11 +74,12 @@ class Cart extends Component<any, {}> {
                   __typename={el.__typename}
                   currency={currency}
                   removeProduct={removeProduct}
-                  getTotalPrice={getTotalPrice}
                   updatedPrices={cartReducer.updatedPrices}
                   attributeState={el.activeAttebutes}
                   getProductCount={productCount}
                   productCount={el.count}
+                  id={el.id}
+                  setTotalPrice={setTotalPrice}
                 />
               </ProductWrapper>
             );
@@ -121,21 +99,23 @@ class Cart extends Component<any, {}> {
             <TotalBlockKey>
               Tax 21%:
               <TotalBlockValue>
-                {" " + stateCurrency + cartReducer.tax.toFixed(2)}
+                {tax && " " + stateCurrency + getCorrectPrice(+tax)}
               </TotalBlockValue>
             </TotalBlockKey>
             <TotalBlockKey>
-              Quantity:{" "}
-              <TotalBlockValue>{products && products.length}</TotalBlockValue>
+              Quantity: <TotalBlockValue>{quantity}</TotalBlockValue>
             </TotalBlockKey>
             <TotalKey>
               Total:{" "}
-              <TotalValue>{stateCurrency + cartReducer.totalPrice}</TotalValue>
+              <TotalValue>
+                {totalPrice && stateCurrency + getCorrectPrice(+totalPrice)}
+              </TotalValue>
             </TotalKey>
             <OrderButton
               onClick={() => {
                 this.setState({ order: true });
                 makeOrder();
+                localStorage.setItem("productArr", JSON.stringify([]));
               }}
             >
               ORDER
@@ -165,11 +145,9 @@ const mapStateToProps = (state: any) => {
 const mapDuspatchToProps = () => {
   return {
     removeProduct,
-    changeFirstTotalPrice,
-    increasetTotalPrice,
-    reduceTotalPrice,
     productCount,
     makeOrder,
+    setTotalPrice,
   };
 };
 

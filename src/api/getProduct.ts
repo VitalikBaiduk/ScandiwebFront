@@ -7,6 +7,7 @@ export const getProduct = gql`
       brand
       gallery
       description
+      inStock
       prices {
         currency {
           label

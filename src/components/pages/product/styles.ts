@@ -10,13 +10,17 @@ export const Wrapper = styled.div`
 `;
 
 export const ImageBlock = styled.div`
+  position: relative;
   width: 100%;
   max-width: 700px;
+  max-height: 510px;
   display: flex;
   margin-right: 100px;
 `;
 
 export const WrapperSmallImage = styled.div`
+  /* max-height: 510px; */
+  overflow: scroll;
   display: flex;
   flex-direction: column;
 `;

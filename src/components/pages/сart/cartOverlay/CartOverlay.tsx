@@ -3,14 +3,10 @@ import { connect } from "react-redux";
 
 import { changeCartOvelayStatus } from "../../../../state/actions/changeCartOvelayStatus";
 import {
-  changeFirstTotalPrice,
-  increasetTotalPrice,
-  reduceTotalPrice,
-} from "../../../../state/actions/changePrices";
-import {
   productCount,
   removeProduct,
 } from "../../../../state/actions/handleProdutInCart";
+import { setTotalPrice } from "../../../../state/actions/setTotalPrice";
 import { ProductDataWithActiveAttr } from "../../../../types/types";
 import ProductForCart from "../../product/components/productForCart/ProductForCart";
 import {
@@ -26,54 +22,34 @@ import {
 } from "./styles";
 
 export class CartOverlay extends Component<any, any> {
-  componentDidMount(): void {
-    this.props.changeFirstTotalPrice(
-      this.props.cartReducer.data,
-      this.props.currency.currency
-    );
-  }
-  componentDidUpdate(
-    prevProps: Readonly<any>,
-    prevState: Readonly<{}>,
-    snapshot?: any
-  ): void {
-    if (prevProps.currency.currency !== this.props.currency.currency) {
-      this.props.changeFirstTotalPrice(
-        this.props.cartReducer.data,
-        this.props.currency.currency
-      );
-    } else if (
-      this.props.cartReducer.data.length !== prevProps.cartReducer.data.length
-    ) {
-      this.props.changeFirstTotalPrice(
-        this.props.cartReducer.data,
-        this.props.currency.currency
-      );
-    }
-  }
-
   render(): React.ReactNode {
     const {
       cartReducer,
       currency,
       removeProduct,
       productCount,
-      increasetTotalPrice,
-      reduceTotalPrice,
       changeCartOvelayStatus,
+      setTotalPrice,
     } = this.props;
 
-    const products = cartReducer.data;
+    const products = localStorage.getItem("productArr")
+      ? JSON.parse(localStorage.getItem("productArr")!)
+      : cartReducer.data;
 
-    const getTotalPrice = (price: number, inc: boolean, decr: boolean) => {
-      inc && increasetTotalPrice(price);
-      decr && reduceTotalPrice(price);
-    };
+    const totalPrice = JSON.parse(localStorage.getItem("totalPrice")!);
+
+    let quantity = 0;
+    products.map((el: any) =>
+      el.count ? (quantity += el.count) : (quantity += 1)
+    );
 
     return (
       <Wrapper>
         <Title>
-          My Bag, <ProductCount>{products.length} items</ProductCount>
+          My Bag,{" "}
+          <ProductCount>
+            {quantity} {quantity > 1 ? "items" : "item"}
+          </ProductCount>
         </Title>
         <ProductWrapper>
           {products.length !== 0 &&
@@ -89,19 +65,20 @@ export class CartOverlay extends Component<any, any> {
                   __typename={el.__typename}
                   currency={currency}
                   removeProduct={removeProduct}
-                  getTotalPrice={getTotalPrice}
                   updatedPrices={cartReducer.updatedPrices}
                   attributeState={el.activeAttebutes}
                   className={"overlay"}
                   getProductCount={productCount}
                   productCount={el.count}
+                  id={el.id}
+                  setTotalPrice={setTotalPrice}
                 />
               );
             })}
         </ProductWrapper>
         <TotalPriceBlock>
           <StyledText>Total:</StyledText>
-          <Price>{currency.currency + cartReducer.totalPrice}</Price>
+          <Price>{currency.currency + totalPrice.toFixed(2)}</Price>
         </TotalPriceBlock>
         <ButtonBlock>
           <ButtonText
@@ -139,11 +116,9 @@ const mapStateToProps = (state: any) => {
 const mapDispatchToProps = () => {
   return {
     removeProduct,
-    increasetTotalPrice,
-    reduceTotalPrice,
     productCount,
-    changeFirstTotalPrice,
     changeCartOvelayStatus,
+    setTotalPrice,
   };
 };
 

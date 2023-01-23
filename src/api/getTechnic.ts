@@ -8,6 +8,7 @@ export const getTechnic = gql`
         id
         name
         gallery
+        inStock
         prices {
           currency {
             label

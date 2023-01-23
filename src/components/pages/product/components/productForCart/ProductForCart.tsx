@@ -31,32 +31,29 @@ import {
   VerticalLineForPlus,
   Wrapper,
 } from "./styles/styles";
+import { getCorrectPrice } from "../../../../../utils/PriceFunc";
 
 interface ProductForCartProps extends ProductData {
   currency: any;
-  removeProduct: (name: string, activeAttebutes: ActiveAttebutes[]) => void;
-  getTotalPrice: (price: number, inc: boolean, decr: boolean) => void;
+  removeProduct: (id: string) => void;
   updatedPrices: any;
   attributeState: ActiveAttebutes[];
   className?: string;
-  getProductCount: (
-    count: number,
-    name: string,
-    activeAttebutes: ActiveAttebutes[]
-  ) => void;
+  getProductCount: (count: number, id: string) => void;
   productCount: number;
+  id: string;
+  setTotalPrice: (currency: string | null) => void;
 }
 
 class ProductForCart extends Component<ProductForCartProps, any> {
   state = {
     imageNumber: 0,
+    quantity: 1,
   };
 
   render(): React.ReactNode {
-    const stateCurrency = this.props.currency.currency;
     let { imageNumber } = this.state;
     const {
-      getTotalPrice,
       removeProduct,
       name,
       gallery,
@@ -66,22 +63,27 @@ class ProductForCart extends Component<ProductForCartProps, any> {
       className,
       getProductCount,
       productCount,
+      id,
+      prices,
+      setTotalPrice,
     } = this.props;
 
     let quantity = productCount ? productCount : 1;
 
     const setClassName = className ? className : "";
 
-    const currentPrice = this.props.prices.find((el: any) => {
-      return stateCurrency === el.currency.symbol;
+    const currentPrice = prices.find((el: any) => {
+      if (el) {
+        return (
+          el !== null && localStorage.getItem("currency") === el.currency.symbol
+        );
+      }
     });
-
-    const finalPrice = currentPrice!.amount * quantity;
 
     const incProduct = () => {
       this.setState({ quantity: (quantity += 1) });
-      getProductCount(quantity, name, attributeState);
-      getTotalPrice(currentPrice ? currentPrice.amount : 0, true, false);
+      getProductCount(quantity, id);
+      setTotalPrice(localStorage.getItem("currency"));
     };
 
     const decProduct = () => {
@@ -89,12 +91,12 @@ class ProductForCart extends Component<ProductForCartProps, any> {
         this.setState({
           quantity: (quantity = quantity - 1),
         });
-
-        getProductCount(quantity, name, attributeState);
-        getTotalPrice(currentPrice ? currentPrice.amount : 0, false, true);
+        getProductCount(quantity, id);
+        setTotalPrice(localStorage.getItem("currency"));
       } else {
-        getProductCount(quantity, name, attributeState);
-        removeProduct(name, attributeState);
+        getProductCount(quantity, id);
+        removeProduct(id);
+        setTotalPrice(localStorage.getItem("currency"));
       }
     };
     const onImageControllButtonClick = (buttonType: string) => {
@@ -117,7 +119,9 @@ class ProductForCart extends Component<ProductForCartProps, any> {
           <NameOfItem className={setClassName}>{name}</NameOfItem>
           <Brand className={setClassName}>{brand}</Brand>
           <StyledPriceValue className={setClassName}>
-            {currentPrice!.currency.symbol + finalPrice.toFixed(2)}
+            {currentPrice &&
+              currentPrice.currency.symbol +
+                getCorrectPrice(currentPrice.amount)}
           </StyledPriceValue>
           {attributes.map((element: ProductAttributesType, i: number) => {
             return (

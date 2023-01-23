@@ -1,15 +1,16 @@
-import { ProductDataWithActiveAttr } from "../../types/types";
+import {
+  PriceItem,
+  ProductData,
+  ProductDataWithActiveAttr,
+} from "../../types/types";
 import {
   ProductCountType,
   AddProductType,
   RemoveProductType,
-  makeOrderType,
+  MakeOrderType,
 } from "../actions/handleProdutInCart";
-import {
-  ChangeFirstTotalPriceType,
-  IncreasetTotalPriceType,
-  ReduceTotalPriceType,
-} from "../actions/changePrices";
+
+import { SetTotalPriceType } from "../actions/setTotalPrice";
 
 interface initialStateType {
   data: ProductDataWithActiveAttr[];
@@ -28,12 +29,14 @@ export const cartReducer = (
   action:
     | AddProductType
     | RemoveProductType
-    | ChangeFirstTotalPriceType
-    | IncreasetTotalPriceType
-    | ReduceTotalPriceType
     | ProductCountType
-    | makeOrderType
+    | MakeOrderType
+    | SetTotalPriceType
 ) => {
+  const localStorageProductData = JSON.parse(
+    localStorage.getItem("productArr")!
+  );
+
   switch (action.type) {
     case "ADD_PRODUCT":
       const newProduct = {
@@ -42,66 +45,65 @@ export const cartReducer = (
       };
       return { ...state, data: [...state.data, newProduct] };
     case "REMOVE_PRODUCT":
+      JSON.parse(localStorage.getItem("productArr")!);
+
+      localStorage.setItem(
+        "productArr",
+        JSON.stringify(
+          localStorageProductData.filter((el: ProductData) => {
+            return el.id !== action.id;
+          })
+        )
+      );
       return {
         ...state,
         data: state.data.filter((el: ProductDataWithActiveAttr) => {
-          return state.data.length >= 2
-            ? el.name !== action.name ||
-                JSON.stringify(el.activeAttebutes) !==
-                  JSON.stringify(action.activeAttebutes)
-            : el.name !== action.name;
+          return el.id !== action.id;
         }),
       };
     case "PRODUCT_COUNT":
-      const newData = state.data.map((el) => {
-        return el.name === action.name &&
-          JSON.stringify(el.activeAttebutes) ===
-            JSON.stringify(action.activeAttebutes)
-          ? { ...el, count: action.count }
+      let updatedPrices: Array<PriceItem> = [];
+
+      localStorageProductData.map((item: any) => {
+        if (item.id === action.id) {
+          updatedPrices = item.firstPrices.map((priceItem: PriceItem) => {
+            return { ...priceItem, amount: priceItem.amount * action.count };
+          });
+        }
+      });
+
+      const newData = localStorageProductData.map((el: ProductData) => {
+        return el.id === action.id
+          ? {
+              ...el,
+              count: action.count,
+              prices: updatedPrices,
+            }
           : el;
       });
+      localStorage.setItem("productArr", JSON.stringify(newData));
+
       return { ...state, data: newData };
-    case "SET_FIRST_TOTAL_PRICE":
-      let firstTotalPriceArr: any[] = [];
-      action.products.map((attrItem: ProductDataWithActiveAttr) => {
-        let [item] = attrItem.prices.filter((el: any) => {
-          return el.currency.symbol === action.stateCurrency;
+
+    case "SET_TOTAL_PRICE":
+      let totalPrice = 0;
+      let tax = 0;
+
+      localStorageProductData.map((el: any) => {
+        const currentAmount = el.prices.find((priceItem: PriceItem) => {
+          return priceItem.currency.symbol === action.currency;
         });
-        const result = attrItem.count
-          ? attrItem.count * item.amount
-          : 1 * item.amount;
 
-        firstTotalPriceArr.push(result);
+        tax += currentAmount.amount * 0.21;
+        totalPrice += currentAmount.amount;
       });
+      localStorage.setItem("totalPrice", JSON.stringify(tax + totalPrice));
+      localStorage.setItem("tax", JSON.stringify(tax));
 
-      const firstTotalCount =
-        firstTotalPriceArr.length &&
-        firstTotalPriceArr.reduce((a, b) => b + a).toFixed(2);
-
-      const percentFirstTotalCount = firstTotalCount * 0.21;
-
-      return {
-        ...state,
-        totalPrice: (+firstTotalCount + percentFirstTotalCount).toFixed(2),
-        tax: percentFirstTotalCount,
-      };
-    case "INCRASE_TOTAL_PRICE":
-      const incraseTotalPrice = +state.totalPrice + action.price;
-      const incraseTax = action.price * 0.21;
-      return {
-        ...state,
-        totalPrice: (incraseTotalPrice + incraseTax).toFixed(2),
-        tax: state.tax + incraseTax,
-      };
-    case "REDUCE_TOTAL_PRICE":
-      const reduceTotalPrice = +state.totalPrice - action.price;
-      const reduceTax = action.price * 0.21;
-      return {
-        ...state,
-        totalPrice: (reduceTotalPrice - reduceTax).toFixed(2),
-        tax: state.tax - reduceTax,
-      };
+      return { ...state, totalPrice: tax + totalPrice, tax };
     case "MAKE_ORDER":
+      localStorage.setItem("totalPrice", JSON.stringify(0));
+      localStorage.setItem("tax", JSON.stringify(0));
       return { ...state, data: [], totalPrice: 0, tax: 0 };
     default:
       return state;

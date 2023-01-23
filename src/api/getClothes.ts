@@ -8,6 +8,7 @@ export const getClothesItem = gql`
         id
         name
         gallery
+        inStock
         prices {
           currency {
             label

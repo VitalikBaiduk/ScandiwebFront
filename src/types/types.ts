@@ -14,6 +14,7 @@ export interface CurrencyItemType {
 export interface CurrencyModalProps {
   setCurrency: (currency: string) => void;
   currenciesList: CurrencyItemType[];
+  setTotalPrice: (currency: string) => void;
 }
 
 export interface CurrencyModalStateType {
@@ -61,6 +62,7 @@ export interface ProductData {
   name: string;
   prices: PriceItem[];
   __typename: string;
+  id: string;
 }
 
 export interface ActiveAttebutes {

@@ -64,6 +64,8 @@ export const WrapperCurrency = styled.div`
   margin-right: 20px;
 `;
 
+export const CurrencyComponentWrapper = styled.div``;
+
 export const Currency = styled.span`
   font-family: "Raleway";
   font-weight: 500;

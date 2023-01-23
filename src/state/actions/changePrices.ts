@@ -1,17 +1,3 @@
-export type ChangeFirstTotalPriceType = ReturnType<
-  typeof changeFirstTotalPrice
->;
-export const changeFirstTotalPrice = (
-  products: any[],
-  stateCurrency: string
-) => {
-  return {
-    type: "SET_FIRST_TOTAL_PRICE",
-    products,
-    stateCurrency,
-  } as const;
-};
-
 export type IncreasetTotalPriceType = ReturnType<typeof increasetTotalPrice>;
 export const increasetTotalPrice = (price: number) => {
   return {

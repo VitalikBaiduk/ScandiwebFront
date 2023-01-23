@@ -1,27 +1,26 @@
 import React, { Component, ComponentType } from "react";
 import { ReactComponent as BrandIcon } from "../../assets/BrandIcon.svg";
 import { ReactComponent as Bin } from "../../assets/Bin.svg";
-import CurrencyModal from "./currencyModal/CurrencyModal";
+import CurrencyModal from "./components/currency/CurrencyModal";
 import {
   ActionsBlock,
   BinWrapper,
   CountOfElemInBin,
-  Currency,
+  CurrencyComponentWrapper,
   NavigationLabels,
-  StyledArrowIcon,
   Wrapper,
-  WrapperCurrency,
   WrapperNavigationLabels,
 } from "./styles";
 import { NavigationStateType } from "../../types/types";
 import { changeCurrency } from "../../state/actions/changeCurrency";
 import { connect } from "react-redux";
 import { graphql, MutateProps } from "@apollo/client/react/hoc";
-import { getCurrencies } from "../../api/getCurrencies";
 import { DataProps } from "react-apollo";
 import { changeCartOvelayStatus } from "../../state/actions/changeCartOvelayStatus";
 import CartOverlay from "../pages/сart/cartOverlay/CartOverlay";
-
+import CurrencyComponent from "./components/currency/CurrencyComponent";
+import { getCategories } from "../../api/getCategories";
+import CurrencyModalContainer from "./components/currency/CurrencyModal";
 class Navigation extends Component<any, NavigationStateType> {
   state = {
     arrowActive: false,
@@ -32,43 +31,48 @@ class Navigation extends Component<any, NavigationStateType> {
     const { arrowActive, activeCartOverlay } = this.state;
     const {
       changeCurrency,
-      currency,
       cartReducer,
       data,
       changeCartOvelayStatus,
       globalStateReducer,
+      currency,
     } = this.props;
 
-    const labelsArr = [
-      { name: "all", path: "/all" },
-      { name: "clothes", path: "/clothes" },
-      { name: "technic", path: "/tech" },
-    ];
+    const navigationData = data.categories;
 
     const setCurrency = (currencySign: string) => {
       changeCurrency(currencySign);
       this.setState({ arrowActive: false });
     };
 
+    const products = localStorage.getItem("productArr")
+      ? JSON.parse(localStorage.getItem("productArr")!)
+      : cartReducer;
+
+    let quantity = 0;
+    products.map((el: any) =>
+      el.count ? (quantity += el.count) : (quantity += 1)
+    );
+
     return (
       <Wrapper>
         <WrapperNavigationLabels>
-          {labelsArr.map((el, index) => {
-            return (
-              <NavigationLabels to={el.path} key={index}>
-                {el.name}
-              </NavigationLabels>
-            );
-          })}
+          {navigationData &&
+            navigationData.map((el: any, index: number) => {
+              return (
+                <NavigationLabels to={el.name} key={index}>
+                  {el.name}
+                </NavigationLabels>
+              );
+            })}
         </WrapperNavigationLabels>
         <BrandIcon />
         <ActionsBlock>
-          <WrapperCurrency
+          <CurrencyComponentWrapper
             onClick={() => this.setState({ arrowActive: !arrowActive })}
           >
-            <Currency>{currency.currency}</Currency>
-            <StyledArrowIcon className={arrowActive ? "active" : ""} />
-          </WrapperCurrency>
+            <CurrencyComponent />
+          </CurrencyComponentWrapper>
           <BinWrapper
             onClick={() => {
               this.setState({ activeCartOverlay: !activeCartOverlay });
@@ -76,14 +80,12 @@ class Navigation extends Component<any, NavigationStateType> {
             }}
           >
             <Bin />
-            {cartReducer.length > 0 && (
-              <CountOfElemInBin>{cartReducer.length}</CountOfElemInBin>
-            )}
+            {quantity > 0 && <CountOfElemInBin>{quantity}</CountOfElemInBin>}
           </BinWrapper>
           {arrowActive && (
-            <CurrencyModal
+            <CurrencyModalContainer
               setCurrency={setCurrency}
-              currenciesList={data.currencies}
+              currenciesList={currency.currencies ? currency.currencies : []}
             />
           )}
         </ActionsBlock>
@@ -113,7 +115,7 @@ const NavigationContainer = connect(
   mapDispatchToProps()
 )(Navigation);
 
-export default graphql(getCurrencies)(
+export default graphql(getCategories)(
   NavigationContainer as ComponentType<
     Partial<DataProps<{}, {}>> & Partial<MutateProps<{}, {}>>
   >
